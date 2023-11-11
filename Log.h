@@ -9,9 +9,6 @@
 #define ANALOG_LOG_H
 
 
-#include <QtCore>
-
-
 //****************************************************************************************************************************************************
 /// \brief Log class
 //****************************************************************************************************************************************************
@@ -31,7 +28,6 @@ public: // member functions.
     int rowCount(QModelIndex const &parent) const override;
     int columnCount(QModelIndex const &parent) const override;
     QVariant data(QModelIndex const &index, int role) const override;
-
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
 private: // member functions

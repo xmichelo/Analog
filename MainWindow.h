@@ -8,7 +8,6 @@
 #define ANALOG_MAIN_WINDOW_H
 
 
-#include <QtWidgets>
 #include "Log.h"
 #include "ui_MainWindow.h"
 

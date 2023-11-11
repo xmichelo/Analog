@@ -21,6 +21,9 @@ add_executable(Analog main.cpp
     Log.h
     Exception.cpp
     Exception.h)
+
+target_precompile_headers(Analog PRIVATE PCH.h)
+
 target_link_libraries(Analog
     Qt::Core
     Qt::Gui

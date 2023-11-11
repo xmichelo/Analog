@@ -9,7 +9,6 @@
 #define ANALOG_EXCEPTION_H
 
 
-#include <QtCore>
 #include <stdexcept>
 
 
