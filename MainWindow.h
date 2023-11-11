@@ -9,6 +9,7 @@
 
 
 #include <QtWidgets>
+#include "Log.h"
 #include "ui_MainWindow.h"
 
 
@@ -31,6 +32,7 @@ private slots:
 
 private: // data members.
     Ui::MainWindow ui_ {}; ///< The GUI for the window.
+    Log log_; ///< The log
 };
 
 

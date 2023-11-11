@@ -16,7 +16,11 @@ find_package(Qt6 COMPONENTS
 add_executable(Analog main.cpp
     MainWindow.cpp
     MainWindow.h
-    MainWindow.ui)
+    MainWindow.ui
+    Log.cpp
+    Log.h
+    Exception.cpp
+    Exception.h)
 target_link_libraries(Analog
     Qt::Core
     Qt::Gui

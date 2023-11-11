@@ -5,6 +5,7 @@
 
 
 #include "MainWindow.h"
+#include "Exception.h"
 #include <QtWidgets>
 
 
@@ -15,6 +16,15 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
-    w.show();
-    return QApplication::exec();
+    try {
+        w.show();
+        return QApplication::exec();
+    } catch (Exception const &e) {
+        qCritical() << e.message() << "\n";
+    } catch (std::exception const& e) {
+        qCritical() << e.what() << "\n";
+    } catch (...) {
+        qCritical() << "A fatal error occurred.\n";
+    }
+    return EXIT_FAILURE;
 }
