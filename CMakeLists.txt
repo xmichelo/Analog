@@ -20,7 +20,9 @@ add_executable(Analog main.cpp
     Log.cpp
     Log.h
     Exception.cpp
-    Exception.h)
+    Exception.h
+    AnalogApp.cpp
+    AnalogApp.h)
 
 target_precompile_headers(Analog PRIVATE PCH.h)
 

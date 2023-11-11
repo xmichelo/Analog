@@ -5,6 +5,7 @@
 
 
 #include "MainWindow.h"
+#include "AnalogApp.h"
 #include "Exception.h"
 
 
@@ -13,7 +14,7 @@
 /// \param[in] argv The list of command-line arguments.
 //****************************************************************************************************************************************************
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    AnalogApp a(argc, argv);
     MainWindow w;
     try {
         w.show();
