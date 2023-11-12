@@ -27,6 +27,15 @@ public: // member functions.
     MainWindow& operator=(MainWindow const&) = delete; ///< Disabled assignment operator.
     MainWindow& operator=(MainWindow&&) = delete; ///< Disabled move assignment operator.
 
+private: // data members
+    /// \name Drag and drop functions
+    ///\{
+    void dragEnterEvent(QDragEnterEvent *event) override; ///< Drag enter event handler
+    void dragMoveEvent(QDragMoveEvent *event) override; ///< Drag move event handler
+    void dragLeaveEvent(QDragLeaveEvent *event) override; ///< Drag leave event handler
+    void dropEvent(QDropEvent *event) override; ///< Drop event handler
+    ////\}
+
 public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
     void onTextFilterChanged(QString const & value); ///< Slot for the change of the text filter edit.

@@ -85,3 +85,44 @@ void MainWindow::openFile(QString const &filePath) {
         QMessageBox::critical(this, tr("Error"), e.message());
     }
 }
+
+//****************************************************************************************************************************************************
+/// \param[in] event The event.
+//****************************************************************************************************************************************************
+void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+//****************************************************************************************************************************************************
+/// \param[in] event The event.
+//****************************************************************************************************************************************************
+void MainWindow::dragMoveEvent(QDragMoveEvent *event) {
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+//****************************************************************************************************************************************************
+/// \param[in] event The event.
+//****************************************************************************************************************************************************
+void MainWindow::dragLeaveEvent(QDragLeaveEvent *event) {
+    event->accept();
+}
+
+//****************************************************************************************************************************************************
+/// \param[in] event The event.
+//****************************************************************************************************************************************************
+void MainWindow::dropEvent(QDropEvent *event) {
+    QMimeData const *mimeData = event->mimeData();
+    if (!mimeData->hasUrls())
+        return;
+    QList<QUrl> urls = mimeData->urls();
+    if (urls.empty()) {
+        return;
+    }
+    QString const &path = urls[0].toLocalFile();
+    this->openFile(path);
+    event->acceptProposedAction();
+}
