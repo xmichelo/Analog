@@ -25,6 +25,8 @@ add_executable(Analog main.cpp
     MainWindow.cpp
     MainWindow.h
     MainWindow.ui
+    FilterModel.cpp
+    FilterModel.h
 )
 
 target_precompile_headers(Analog PRIVATE PCH.h)

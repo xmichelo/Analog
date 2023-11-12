@@ -1,56 +1,45 @@
 /// \file
 /// \author Xavier Michelon
 ///
-/// \brief Implementation of main window class.
+/// \brief Implementation of filter model for the log table view.
 
 
-#include "MainWindow.h"
-#include "Exception.h"
+#include "FilterModel.h"
 
 
 //****************************************************************************************************************************************************
-//
+/// \param[in] log The log.
 //****************************************************************************************************************************************************
-MainWindow::MainWindow()
-    : QMainWindow()
-    , log_()
-    , filter_(log_) {
-    ui_.setupUi(this);
-    ui_.tableView->setModel(&filter_);
-
-    connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
-    connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
-    connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
+FilterModel::FilterModel(Log& log)
+    : QSortFilterProxyModel()
+    , log_(log){
+    this->setSourceModel(&log_);
 }
 
 
 //****************************************************************************************************************************************************
-//
+/// \return The level.
 //****************************************************************************************************************************************************
-void MainWindow::onActionOpenFile() {
-    QString const filePath = QFileDialog::getOpenFileName(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
-    if (!filePath.isEmpty()) {
-        this->openFile(filePath);
+LogEntry::Level FilterModel::level() const {
+    return level_;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] level The level.
+//****************************************************************************************************************************************************
+void FilterModel::setLevel(LogEntry::Level level) {
+    if (level == level_) {
+        return;
     }
+    level_ = level;
+    this->invalidate();
 }
 
-
 //****************************************************************************************************************************************************
-/// \param[in]
+/// \param[in] sourceRow The row index.
+/// \return true iff the row should be displayed.
 //****************************************************************************************************************************************************
-void MainWindow::onLevelComboChanged(int index) {
-    filter_.setLevel(static_cast<LogEntry::Level>(index));
+bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
+    return static_cast<int>(log_.entries_[sourceRow].level()) >= static_cast<int>(level_);
 }
-
-
-//****************************************************************************************************************************************************
-/// \param[in] filePath The path of the file to open.
-//****************************************************************************************************************************************************
-void MainWindow::openFile(QString const &filePath) {
-    try {
-        log_.open(filePath);
-    } catch (Exception const &e) {
-        QMessageBox::critical(this, tr("Error"), e.message());
-    }
-}
-

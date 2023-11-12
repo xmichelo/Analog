@@ -14,8 +14,9 @@
 //****************************************************************************************************************************************************
 /// \brief Log class
 //****************************************************************************************************************************************************
-class Log: public QAbstractTableModel {
-    Q_OBJECT
+class Log : public QAbstractTableModel {
+Q_OBJECT
+
 public: // member functions.
     Log() = default; ///< Default constructor.
     Log(Log const &) = delete; ///< Disabled copy-constructor.
@@ -25,15 +26,16 @@ public: // member functions.
     Log &operator=(Log &&) = delete; ///< Disabled move assignment operator.
 
     void open(QString const &filePath); ///< Open a log from file.
-    void open(QStringList const& filePaths); ///< Open a log from an ordered list of files.
+    void open(QStringList const &filePaths); ///< Open a log from an ordered list of files.
+    int rowCount(QModelIndex const &parent) const override; ///< Get the number of rows in the model.
+    int columnCount(QModelIndex const &parent) const override; ///< Get the number of columns in the
+    QVariant data(QModelIndex const &index, int role) const override; ///< Get the data at an index in the model.
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override; ///< Get the header data for a row/column.
 
-    int rowCount(QModelIndex const &parent) const override;
-    int columnCount(QModelIndex const &parent) const override;
-    QVariant data(QModelIndex const &index, int role) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QList<LogEntry> const &entries(); ///< Returns a constant reference to the log entries.
 
 private: // member functions
-    void appendFileContent(QString const& filePath); ///< Append the content of a file to the log.
+    void appendFileContent(QString const &filePath); ///< Append the content of a file to the log.
 
 public: // data members
     QList<LogEntry> entries_; ///< The log entries

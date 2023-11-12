@@ -9,6 +9,7 @@
 
 
 #include "Log.h"
+#include "FilterModel.h"
 #include "ui_MainWindow.h"
 
 
@@ -28,11 +29,13 @@ public: // member functions.
 
 public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
+    void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
     void openFile(QString const& path); ///< Slot for opening a given file.
 
 private: // data members.
     Ui::MainWindow ui_ {}; ///< The GUI for the window.
     Log log_; ///< The log
+    FilterModel filter_; ///< The filter model for the log.
 };
 
 
