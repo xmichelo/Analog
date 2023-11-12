@@ -38,3 +38,4 @@ target_link_libraries(Analog
 )
 
 set_target_properties(Analog PROPERTIES MACOSX_BUNDLE TRUE)
+set_target_properties(Analog PROPERTIES WIN32_EXECUTABLE TRUE)
