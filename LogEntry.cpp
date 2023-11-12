@@ -11,14 +11,21 @@
 namespace {
 
 
-QChar const doubleQuote('"');
-QChar const backslash('\\');
-QChar const equal('=');
-QString const keyTime = "time";
-QString const keyLevel = "level";
-QString const keyPackage = "pkg";
-QString const keyService = "service";
-QString const keyMessage = "msg";
+QChar const doubleQuote('"'); ///< The double quote character.
+QChar const backslash('\\'); ///< The backslash character.
+QChar const equal('='); ///< The equal sign character.
+QString const keyTime = "time"; ///< The field name for time.
+QString const keyLevel = "level"; ///< The field name for level.
+QString const keyPackage = "pkg"; ///< The field name for package.
+QString const keyService = "service"; ///< the field name for service.
+QString const keyMessage = "msg"; ///< The field name for message.
+QString const traceColor("#fffffc"); ///< The color for the trace log level.
+QString const debugColor("#9bf6ff"); ///< The color for the debug log level.
+QString const infoColor("#caffbf"); ///< The color for the info log level.
+QString const warnColor("#fdd6a5"); ///< The color for the warn log level.
+QString const errorColor("#ffadad"); ///< The color for the error log level.
+QString const fatalColor("#a0c4ff"); ///< The color for the fatal log level.
+QString const panicColor("#bdb2ff"); ///< The color for the panic log level.
 
 
 }
@@ -114,7 +121,7 @@ QString LogEntry::time() const {
 //****************************************************************************************************************************************************
 /// \return The entry level.
 //****************************************************************************************************************************************************
-QString LogEntry::level() const {
+LogEntry::Level LogEntry::level() const {
     return level_;
 }
 
@@ -175,11 +182,11 @@ void LogEntry::parse(QString const &str) {
                 continue;
             }
             if (key == keyLevel) {
-                level_ = value;
+                level_ = LogEntry::levelFromString(value);
                 continue;
             }
 
-            if ((key == keyPackage) || (key == keyService)){
+            if ((key == keyPackage) || (key == keyService)) {
                 package_ = value;
                 continue;
             }
@@ -195,6 +202,81 @@ void LogEntry::parse(QString const &str) {
         QString const msg = e.message();
         error_ = msg.isEmpty() ? "Unknown error" : msg;
         fields_.clear();
+    }
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+LogEntry::Level LogEntry::levelFromString(QString const &str) {
+    if (str.compare("trace", Qt::CaseInsensitive) == 0)
+        return Level::Trace;
+    if (str.compare("debug", Qt::CaseInsensitive) == 0)
+        return Level::Debug;
+    if (str.compare("info", Qt::CaseInsensitive) == 0)
+        return Level::Info;
+    if (str.compare("warning", Qt::CaseInsensitive) == 0)
+        return Level::Warn;
+    if (str.compare("error", Qt::CaseInsensitive) == 0)
+        return Level::Error;
+    if (str.compare("fatal", Qt::CaseInsensitive) == 0)
+        return Level::Fatal;
+    if (str.compare("panic", Qt::CaseInsensitive) == 0)
+        return Level::Panic;
+    qCritical() << QString("Unknown log level '%1'").arg(str);
+    return Level::Trace;
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+QString LogEntry::levelToString(LogEntry::Level level) {
+    switch (level) {
+    case Level::Trace:
+        return "trace";
+    case Level::Debug:
+        return "debug";
+    case Level::Info:
+        return "info";
+    case Level::Warn:
+        return "warning";
+    case Level::Error:
+        return "error";
+    case Level::Fatal:
+        return "fatal";
+    case Level::Panic:
+        return "panic";
+    default:
+        qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
+        return "unknown";
+    }
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+QColor LogEntry::levelColor(LogEntry::Level level) {
+    switch (level) {
+    case Level::Trace:
+        return traceColor;
+    case Level::Debug:
+        return debugColor;
+    case Level::Info:
+        return infoColor;
+    case Level::Warn:
+        return warnColor;
+    case Level::Error:
+        return errorColor;
+    case Level::Fatal:
+        return fatalColor;
+    case Level::Panic:
+        return panicColor;
+    default:
+        qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
+        return traceColor;
     }
 }
 

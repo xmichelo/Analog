@@ -17,6 +17,7 @@ MainWindow::MainWindow()
     ui_.tableView->setModel(&log_);
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
+    connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
 }
 
 

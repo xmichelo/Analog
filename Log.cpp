@@ -67,18 +67,30 @@ int Log::columnCount(QModelIndex const &) const {
 /// \return The data for a given role at a model index.
 //****************************************************************************************************************************************************
 QVariant Log::data(QModelIndex const &index, int role) const {
-    if (role != Qt::DisplayRole) {
-        return {};
+    LogEntry const &entry = entries_[index.row()];
+    if (role == Qt::DisplayRole) {
+        switch (index.column()) {
+        case 0:
+            return entry.time();
+        case 1:
+            return LogEntry::levelToString(entry.level());
+        case 2:
+            return entry.package();
+        case 3:
+            return entry.message();
+        case 4:
+            return entry.fields();
+        default:
+            return {};
+        }
     }
-    LogEntry const& entry = entries_[index.row()];
-    switch (index.column()) {
-    case 0: return entry.time();
-    case 1: return entry.level();
-    case 2: return entry.package();
-    case 3: return entry.message();
-    case 4: return entry.fields();
-    default: return {};
+    if (role == Qt::ForegroundRole) {
+        return QColor("#502b3a");
     }
+    if (role == Qt::BackgroundRole) {
+        return LogEntry::levelColor(entry.level());
+    }
+    return {};
 }
 
 //****************************************************************************************************************************************************
@@ -92,11 +104,17 @@ QVariant Log::headerData(int section, Qt::Orientation orientation, int role) con
         return QAbstractItemModel::headerData(section, orientation, role);
     }
     switch (section) {
-    case 0: return tr("Time");
-    case 1: return tr("Level");
-    case 2: return tr("Package");
-    case 3: return tr("Message");
-    case 4: return tr("Fields");
-    default: return {};
+    case 0:
+        return tr("Time");
+    case 1:
+        return tr("Level");
+    case 2:
+        return tr("Package");
+    case 3:
+        return tr("Message");
+    case 4:
+        return tr("Fields");
+    default:
+        return {};
     }
 }
