@@ -41,5 +41,30 @@ void FilterModel::setLevel(LogEntry::Level level) {
 /// \return true iff the row should be displayed.
 //****************************************************************************************************************************************************
 bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
-    return static_cast<int>(log_.entries_[sourceRow].level()) >= static_cast<int>(level_);
+    if (useStrictLevelFilter_) {
+        return static_cast<int>(log_.entries_[sourceRow].level()) == static_cast<int>(level_);
+    } else {
+        return static_cast<int>(log_.entries_[sourceRow].level()) >= static_cast<int>(level_);
+    }
+}
+
+
+//****************************************************************************************************************************************************
+/// \return true iff the level filter is strict.
+//****************************************************************************************************************************************************
+bool FilterModel::useStrictLevelFilter() const {
+    return useStrictLevelFilter_;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] strict the new strictness of the level filter.
+//****************************************************************************************************************************************************
+void FilterModel::setUseStrictLevelFilter(bool strict) {
+    if (strict == useStrictLevelFilter_) {
+        return;
+    }
+
+    useStrictLevelFilter_ = strict;
+    this->invalidate();
 }

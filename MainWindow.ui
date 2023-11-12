@@ -64,7 +64,7 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>1381</width>
+           <width>1285</width>
            <height>1</height>
           </size>
          </property>
@@ -114,6 +114,16 @@
            <string>Panic</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkAndAbove">
+         <property name="text">
+          <string> And above</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>

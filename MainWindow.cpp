@@ -21,6 +21,9 @@ MainWindow::MainWindow()
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
     connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
+    connect(ui_.checkAndAbove, &QCheckBox::stateChanged, this, &MainWindow::onLevelStrictnessChanged);
+    ui_.comboLevel->setCurrentIndex(static_cast<int>(filter_.level()));
+    ui_.checkAndAbove->setChecked(!filter_.useStrictLevelFilter());
 }
 
 
@@ -44,6 +47,14 @@ void MainWindow::onLevelComboChanged(int index) {
 
 
 //****************************************************************************************************************************************************
+/// \param[in] nonStrict The strictness of the level filter.
+//****************************************************************************************************************************************************
+void MainWindow::onLevelStrictnessChanged(bool nonStrict) {
+    filter_.setUseStrictLevelFilter(!nonStrict);
+}
+
+
+//****************************************************************************************************************************************************
 /// \param[in] filePath The path of the file to open.
 //****************************************************************************************************************************************************
 void MainWindow::openFile(QString const &filePath) {
@@ -53,4 +64,3 @@ void MainWindow::openFile(QString const &filePath) {
         QMessageBox::critical(this, tr("Error"), e.message());
     }
 }
-

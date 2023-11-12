@@ -26,6 +26,8 @@ public: // member functions.
     FilterModel& operator=(FilterModel&&) = delete; ///< Disabled move assignment operator.
     LogEntry::Level level() const; ///< Get the level of the filer.
     void setLevel(LogEntry::Level); ///< Set the level of the filter.
+    bool useStrictLevelFilter() const; ///< Check if the level filter is strict.
+    void  setUseStrictLevelFilter(bool strict); ///< Set the strictness of the level filter.
 
 private: // member functions.
     bool filterAcceptsRow(int sourceRow, QModelIndex const &source_parent) const override; ///< check if a row show be accepted.
@@ -33,6 +35,7 @@ private: // member functions.
 private: // data members.
     Log& log_; ///< The log
     LogEntry::Level level_ { LogEntry::Level::Trace }; ///< The minimum level to show.
+    bool useStrictLevelFilter_ { false }; ///< Set if the level_ filtering should exclude entries above the selected level.
 };
 
 

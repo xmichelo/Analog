@@ -30,6 +30,7 @@ public: // member functions.
 public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
     void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
+    void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
     void openFile(QString const& path); ///< Slot for opening a given file.
 
 private: // data members.
