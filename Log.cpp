@@ -39,7 +39,7 @@ void Log::appendFileContent(QString const &filePath) {
         if (entry.isValid()) {
             entries_.append(entry);
         } else {
-            qWarning() << QString("Invalid log entry at line %1").arg(lineNumber);
+            qWarning() << QString("Invalid log entry at line %1: %2").arg(lineNumber).arg(entry.error());
         }
     }
 }
@@ -57,7 +57,7 @@ int Log::rowCount(QModelIndex const &) const {
 /// \return The number of columns in the model.
 //****************************************************************************************************************************************************
 int Log::columnCount(QModelIndex const &) const {
-    return 1;
+    return 5;
 }
 
 
@@ -70,7 +70,15 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     if (role != Qt::DisplayRole) {
         return {};
     }
-    return entries_[index.row()].value();
+    LogEntry const& entry = entries_[index.row()];
+    switch (index.column()) {
+    case 0: return entry.time();
+    case 1: return entry.level();
+    case 2: return entry.package();
+    case 3: return entry.message();
+    case 4: return entry.fields();
+    default: return {};
+    }
 }
 
 //****************************************************************************************************************************************************
@@ -80,9 +88,15 @@ QVariant Log::data(QModelIndex const &index, int role) const {
 /// \return The data for the header.
 //****************************************************************************************************************************************************
 QVariant Log::headerData(int section, Qt::Orientation orientation, int role) const {
-    if ((role == Qt::DisplayRole) && (Qt::Horizontal == orientation)) {
-        return tr("Entry");
+    if ((role != Qt::DisplayRole) || (Qt::Horizontal != orientation)) {
+        return QAbstractItemModel::headerData(section, orientation, role);
     }
-
-    return QAbstractItemModel::headerData(section, orientation, role);
+    switch (section) {
+    case 0: return tr("Time");
+    case 1: return tr("Level");
+    case 2: return tr("Package");
+    case 3: return tr("Message");
+    case 4: return tr("Fields");
+    default: return {};
+    }
 }

@@ -21,10 +21,23 @@ public: // member functions.
     LogEntry &operator=(LogEntry &&) = default; ///< Disabled move assignment operator.
 
     bool isValid() const; ///< Return true iff the log entry is valid.
-    QString value() const; ///< Return the log entry value.
+    QString time() const; ///< Return the entry time.
+    QString level() const; ///< Return the entry level.
+    QString package() const; ///< Return the entry package.
+    QString message() const; ///< Return the entry message.
+    QString fields() const; ///< Return the log entry fields.
+    QString error() const; ///< Return the description of the problem encountered while parsing the entry.
+
+private:
+    void parse(QString const& str); ///< Parse the log entry from a string.
 
 private: // member functions
-    QString entry_; ///< The entry
+    QString time_; ///< The entry time.
+    QString level_; ///< The entry level.
+    QString package_; ///< The entry package.
+    QString message_; ///< The entry message.
+    QMap<QString, QString> fields_; ///< The other entry fields.
+    QString error_;  ///< The error that make the line invalid.
 };
 
 
