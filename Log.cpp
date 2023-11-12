@@ -85,10 +85,10 @@ QVariant Log::data(QModelIndex const &index, int role) const {
         }
     }
     if (role == Qt::ForegroundRole) {
-        return QColor("#502b3a");
+        return LogEntry::levelColor(entry.level());
     }
     if (role == Qt::BackgroundRole) {
-        return LogEntry::levelColor(entry.level());
+        return QColor("#2b2d30");
     }
     return {};
 }

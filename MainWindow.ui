@@ -29,6 +29,21 @@
     </property>
     <item>
      <widget class="QTableView" name="tableView">
+      <property name="styleSheet">
+       <string notr="true">
+QTableView {
+    gridline-color: #1e1f22;
+    background-color: #2b2d30;
+}
+
+QHeaderView::section {
+    background-color: #1e1f22;
+    color: #888888;
+    border-style: none;
+    border-bottom: 1px solid #2b2d30;
+    border-right: 1px solid #2b2d30;
+}</string>
+      </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::SingleSelection</enum>
       </property>
@@ -51,7 +66,7 @@
      <x>0</x>
      <y>0</y>
      <width>1543</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
