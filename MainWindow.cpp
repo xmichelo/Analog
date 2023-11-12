@@ -52,7 +52,7 @@ void MainWindow::onTextFilterChanged(QString const &value) {
 
 
 //****************************************************************************************************************************************************
-/// \param[in]
+/// \param[in] index The index of the current item.
 //****************************************************************************************************************************************************
 void MainWindow::onLevelComboChanged(int index) {
     filter_.setLevel(static_cast<LogEntry::Level>(index));
@@ -68,7 +68,7 @@ void MainWindow::onLevelStrictnessChanged(bool nonStrict) {
 
 
 //****************************************************************************************************************************************************
-/// \parm[in] the new value for the package filter.
+/// \param[in] value The new value for the package filter.
 //****************************************************************************************************************************************************
 void MainWindow::onPackageFilterChanged(QString const &value) {
     filter_.setPackageFilter(value);

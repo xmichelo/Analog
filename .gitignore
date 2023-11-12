@@ -9,6 +9,7 @@
 *.so.*
 *.dll
 *.dylib
+*.bak
 
 # Qt-es
 object_script.*.Release
@@ -58,3 +59,6 @@ cmake-build-*
 
 # Jetbrains IDE configuration folder
 .idea
+
+# Doxygen output
+_doc

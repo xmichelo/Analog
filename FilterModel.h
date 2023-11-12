@@ -34,7 +34,7 @@ public: // member functions.
     void setTextFilter(QString const &filter); ///< Set The text filter.
 
 private: // member functions.
-    bool filterAcceptsRow(int sourceRow, QModelIndex const &source_parent) const override; ///< check if a row show be accepted.
+    bool filterAcceptsRow(int sourceRow, QModelIndex const &) const override; ///< check if a row show be accepted.
 
 private: // data members.
     Log& log_; ///< The log

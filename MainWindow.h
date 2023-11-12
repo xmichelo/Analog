@@ -34,7 +34,7 @@ private: // data members
     void dragMoveEvent(QDragMoveEvent *event) override; ///< Drag move event handler
     void dragLeaveEvent(QDragLeaveEvent *event) override; ///< Drag leave event handler
     void dropEvent(QDropEvent *event) override; ///< Drop event handler
-    ////\}
+    ///\}
 
 public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
