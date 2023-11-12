@@ -29,13 +29,18 @@ void Log::open(QStringList const &filePaths) {
 void Log::appendFileContent(QString const &filePath) {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        throw Exception(QString("The file '%1' could not be opened.\n").arg(QDir::toNativeSeparators(filePath)));
+        throw Exception(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
     }
 
+    qint64 lineNumber = 0;
     while (!file.atEnd()) {
-        QString const line = QString::fromUtf8(file.readLine());
-        if (!line.isEmpty())
-            entries_.append(line);
+        LogEntry const entry(QString::fromUtf8(file.readLine()));
+        lineNumber++;
+        if (entry.isValid()) {
+            entries_.append(entry);
+        } else {
+            qWarning() << QString("Invalid log entry at line %1").arg(lineNumber);
+        }
     }
 }
 
@@ -65,7 +70,7 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     if (role != Qt::DisplayRole) {
         return {};
     }
-    return entries_[index.row()];
+    return entries_[index.row()].value();
 }
 
 //****************************************************************************************************************************************************

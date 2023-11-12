@@ -1,43 +1,32 @@
 /// \file
 /// \author Xavier Michelon
 ///
-/// \brief Implementation of main window class.
+/// \brief Implementation of log entry class.
 
 
-#include "MainWindow.h"
-#include "Exception.h"
+#include "LogEntry.h"
 
 
 //****************************************************************************************************************************************************
-//
+/// \param[in] str The log entry string.
 //****************************************************************************************************************************************************
-MainWindow::MainWindow()
-    : QMainWindow() {
-    ui_.setupUi(this);
-    ui_.tableView->setModel(&log_);
-
-    connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
+LogEntry::LogEntry(QString const& str) {
+    entry_ = str;
 }
 
 
 //****************************************************************************************************************************************************
-//
+/// \return true iff the log entry is valid.
 //****************************************************************************************************************************************************
-void MainWindow::onActionOpenFile() {
-    QString const filePath = QFileDialog::getOpenFileName(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
-    if (!filePath.isEmpty()) {
-        this->openFile(filePath);
-    }
+bool LogEntry::isValid() const {
+    return !entry_.isEmpty();
 }
 
+
 //****************************************************************************************************************************************************
-/// \param[in] filePath The path of the file to open.
+/// \return The log entry value.
 //****************************************************************************************************************************************************
-void MainWindow::openFile(QString const &filePath) {
-    try {
-        log_.open(filePath);
-    } catch (Exception const &e) {
-        QMessageBox::critical(this, tr("Error"), e.message());
-    }
+QString LogEntry::value() const {
+    return entry_;
 }
 

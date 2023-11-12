@@ -26,8 +26,9 @@ public: // member functions.
     MainWindow& operator=(MainWindow const&) = delete; ///< Disabled assignment operator.
     MainWindow& operator=(MainWindow&&) = delete; ///< Disabled move assignment operator.
 
-private slots:
+public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
+    void openFile(QString const& path); ///< Slot for opening a given file.
 
 private: // data members.
     Ui::MainWindow ui_ {}; ///< The GUI for the window.

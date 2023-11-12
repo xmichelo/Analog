@@ -18,6 +18,9 @@ int main(int argc, char *argv[]) {
     MainWindow w;
     try {
         w.show();
+        if (argc > 1) {
+            QTimer::singleShot(0, &w, [argv, &w]() { w.openFile(QString(argv[1])); });
+        }
         return QApplication::exec();
     } catch (Exception const &e) {
         qCritical() << e.message() << "\n";

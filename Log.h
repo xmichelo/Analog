@@ -4,9 +4,11 @@
 /// \brief Declaration of log class
 
 
-
 #ifndef ANALOG_LOG_H
 #define ANALOG_LOG_H
+
+
+#include "LogEntry.h"
 
 
 //****************************************************************************************************************************************************
@@ -34,7 +36,7 @@ private: // member functions
     void appendFileContent(QString const& filePath); ///< Append the content of a file to the log.
 
 public: // data members
-    QStringList entries_; ///< The log entries
+    QList<LogEntry> entries_; ///< The log entries
 };
 
 

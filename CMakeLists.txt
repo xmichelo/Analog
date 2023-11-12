@@ -14,15 +14,18 @@ find_package(Qt6 COMPONENTS
     REQUIRED)
 
 add_executable(Analog main.cpp
+    AnalogApp.cpp
+    AnalogApp.h
+    Exception.cpp
+    Exception.h
+    Log.cpp
+    Log.h
+    LogEntry.cpp
+    LogEntry.h
     MainWindow.cpp
     MainWindow.h
     MainWindow.ui
-    Log.cpp
-    Log.h
-    Exception.cpp
-    Exception.h
-    AnalogApp.cpp
-    AnalogApp.h)
+)
 
 target_precompile_headers(Analog PRIVATE PCH.h)
 
