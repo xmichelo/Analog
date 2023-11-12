@@ -29,6 +29,8 @@ public: // member functions.
 
 public slots:
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
+    void onTextFilterChanged(QString const & value); ///< Slot for the change of the text filter edit.
+    void onPackageFilterChanged(QString const& value); ///< Slot for the change of the packet filter edit.
     void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
     void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
     void openFile(QString const& path); ///< Slot for opening a given file.

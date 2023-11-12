@@ -20,8 +20,13 @@ MainWindow::MainWindow()
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
+    connect(ui_.editFilter, &QLineEdit::textChanged, this, &MainWindow::onTextFilterChanged);
+    connect(ui_.editPackage, &QLineEdit::textChanged, this, &MainWindow::onPackageFilterChanged);
     connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
     connect(ui_.checkAndAbove, &QCheckBox::stateChanged, this, &MainWindow::onLevelStrictnessChanged);
+
+    ui_.editFilter->setText(filter_.textFilter());
+    ui_.editPackage->setText(filter_.packageFilter());
     ui_.comboLevel->setCurrentIndex(static_cast<int>(filter_.level()));
     ui_.checkAndAbove->setChecked(!filter_.useStrictLevelFilter());
 }
@@ -39,6 +44,14 @@ void MainWindow::onActionOpenFile() {
 
 
 //****************************************************************************************************************************************************
+/// \param[in] value The text filter.
+//****************************************************************************************************************************************************
+void MainWindow::onTextFilterChanged(QString const &value) {
+    filter_.setTextFilter(value);
+}
+
+
+//****************************************************************************************************************************************************
 /// \param[in]
 //****************************************************************************************************************************************************
 void MainWindow::onLevelComboChanged(int index) {
@@ -51,6 +64,14 @@ void MainWindow::onLevelComboChanged(int index) {
 //****************************************************************************************************************************************************
 void MainWindow::onLevelStrictnessChanged(bool nonStrict) {
     filter_.setUseStrictLevelFilter(!nonStrict);
+}
+
+
+//****************************************************************************************************************************************************
+/// \parm[in] the new value for the package filter.
+//****************************************************************************************************************************************************
+void MainWindow::onPackageFilterChanged(QString const &value) {
+    filter_.setPackageFilter(value);
 }
 
 

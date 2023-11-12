@@ -10,9 +10,8 @@
 //****************************************************************************************************************************************************
 /// \param[in] log The log.
 //****************************************************************************************************************************************************
-FilterModel::FilterModel(Log& log)
-    : QSortFilterProxyModel()
-    , log_(log){
+FilterModel::FilterModel(Log &log)
+    : QSortFilterProxyModel(), log_(log) {
     this->setSourceModel(&log_);
 }
 
@@ -41,11 +40,33 @@ void FilterModel::setLevel(LogEntry::Level level) {
 /// \return true iff the row should be displayed.
 //****************************************************************************************************************************************************
 bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
-    if (useStrictLevelFilter_) {
-        return static_cast<int>(log_.entries_[sourceRow].level()) == static_cast<int>(level_);
-    } else {
-        return static_cast<int>(log_.entries_[sourceRow].level()) >= static_cast<int>(level_);
+    LogEntry const& entry = log_.entries_[sourceRow];
+    if ((useStrictLevelFilter_) && (static_cast<int>(entry.level()) != static_cast<int>(level_))) {
+        return false;
     }
+    if ((!useStrictLevelFilter_) && (static_cast<int>(entry.level()) < static_cast<int>(level_))) {
+        return false;
+    }
+
+    if ((!packageFilter_.isEmpty()) && !entry.package().contains(packageFilter_, Qt::CaseInsensitive) ){
+        return false;
+    }
+
+    if (textFilter_.isEmpty()) {
+        return true;
+    }
+
+    if (entry.message().contains(textFilter_, Qt::CaseInsensitive)) {
+        return true;
+    }
+    QMap<QString, QString> const& fields = entry.fields();
+    for (QMap<QString, QString>::const_iterator it = fields.begin(); it != fields.end(); ++it) {
+        if (it.key().contains(textFilter_, Qt::CaseInsensitive) || it.value().contains(textFilter_, Qt::CaseInsensitive)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -66,5 +87,45 @@ void FilterModel::setUseStrictLevelFilter(bool strict) {
     }
 
     useStrictLevelFilter_ = strict;
+    this->invalidate();
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The package filter.
+//****************************************************************************************************************************************************
+QString FilterModel::packageFilter() const {
+    return packageFilter_;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] filter The package filter.
+//****************************************************************************************************************************************************
+void FilterModel::setPackageFilter(QString const &filter) {
+    if (filter == packageFilter_) {
+        return;
+    }
+    packageFilter_ = filter;
+    this->invalidate();
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The text filter.
+//****************************************************************************************************************************************************
+QString FilterModel::textFilter() {
+    return textFilter_;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] filter The text filter.
+//****************************************************************************************************************************************************
+void FilterModel::setTextFilter(QString const &filter) {
+    if (textFilter_ == filter) {
+        return;
+    }
+    textFilter_ = filter;
     this->invalidate();
 }

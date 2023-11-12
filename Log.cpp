@@ -79,7 +79,7 @@ QVariant Log::data(QModelIndex const &index, int role) const {
         case 3:
             return entry.message();
         case 4:
-            return entry.fields();
+            return entry.fieldsString();
         default:
             return {};
         }

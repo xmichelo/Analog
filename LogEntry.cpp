@@ -149,10 +149,18 @@ QString LogEntry::error() const {
     return error_;
 }
 
+
 //****************************************************************************************************************************************************
-/// \return The log entry fields.
+/// \return a constant reference to the entry fields.
 //****************************************************************************************************************************************************
-QString LogEntry::fields() const {
+QMap<QString, QString> const &LogEntry::fields() const {
+    return fields_;
+}
+
+//****************************************************************************************************************************************************
+/// \return The log entry fieldsString.
+//****************************************************************************************************************************************************
+QString LogEntry::fieldsString() const {
     QStringList result;
     for (auto it = fields_.begin(); it != fields_.end(); ++it) {
         result.append(QString(R"(%1=%2)").arg(it.key(), it.value()));
@@ -279,5 +287,3 @@ QColor LogEntry::levelColor(LogEntry::Level level) {
         return traceColor;
     }
 }
-
-

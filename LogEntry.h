@@ -36,7 +36,8 @@ public: // member functions.
     Level level() const; ///< Return the entry level.
     QString package() const; ///< Return the entry package.
     QString message() const; ///< Return the entry message.
-    QString fields() const; ///< Return the log entry fields.
+    QMap<QString, QString> const& fields() const; ///< Returns a reference to the entry fields.
+    QString fieldsString() const; ///< Return the log entry as a string.
     QString error() const; ///< Return the description of the problem encountered while parsing the entry.
 
 public: // static members
@@ -51,7 +52,7 @@ private: // member functions
     Level level_; ///< The entry level.
     QString package_; ///< The entry package.
     QString message_; ///< The entry message.
-    QMap<QString, QString> fields_; ///< The other entry fields.
+    QMap<QString, QString> fields_; ///< The other entry fieldsString.
     QString error_;  ///< The error that make the line invalid.
 };
 
