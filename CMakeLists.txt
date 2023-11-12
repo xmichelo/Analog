@@ -36,3 +36,5 @@ target_link_libraries(Analog
     Qt::Gui
     Qt::Widgets
 )
+
+set_target_properties(Analog PROPERTIES MACOSX_BUNDLE TRUE)
