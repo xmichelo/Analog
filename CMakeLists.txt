@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
+
+set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
+
 project(Analog)
 
 set(CMAKE_CXX_STANDARD 17)
