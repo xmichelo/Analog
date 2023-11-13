@@ -114,7 +114,7 @@ bool LogEntry::isValid() const {
 //****************************************************************************************************************************************************
 /// \return The entry time.
 //****************************************************************************************************************************************************
-QString LogEntry::time() const {
+QDateTime LogEntry::time() const {
     return time_;
 }
 
@@ -176,6 +176,7 @@ void LogEntry::parse(QString const &str) {
     try {
         QStringList const tokens = tokenize(str);
         qsizetype const count = tokens.size();
+        QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the year not in the log timestamps? We ignore year change for now...
         if (count % 2 != 0) {
             throw Exception("Invalid number of elements after tokenization.");
         }
@@ -186,7 +187,11 @@ void LogEntry::parse(QString const &str) {
                 throw Exception(QString("Duplicate field \"%1\"").arg(key));
             }
             if (key == keyTime) {
-                time_ = value;
+                time_ = QDateTime::fromString(yearStr + value, "yyyy MMM dd HH:mm:ss.zzz");
+                if (!time_.isValid()) {
+                    throw Exception(QString("Invalid time %1").arg(value));
+                }
+
                 continue;
             }
             if (key == keyLevel) {

@@ -71,7 +71,7 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case 0:
-            return entry.time();
+            return entry.time().toString("yyyy-MM-dd HH:mm:ss.zzz");
         case 1:
             return LogEntry::levelToString(entry.level());
         case 2:
