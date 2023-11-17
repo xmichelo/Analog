@@ -4,44 +4,34 @@
 
 //****************************************************************************************************************************************************
 /// \param[in] filePath The path of the log file.
-//****************************************************************************************************************************************************
-void Log::open(QString const &filePath) {
-    this->open(QStringList{filePath});
+/// \return true if no parsing error occurred.
+///***************************************************************************************************************************************************
+bool Log::open(QString const &filePath) {
+    return this->open(QStringList{filePath});
 }
 
 
 //****************************************************************************************************************************************************
+/// No check is perform on the ordering of the file.
+///
 /// \param[in] filePaths The ordered list of files forming the log.
+/// \return true if no parsing error occurred.
 //****************************************************************************************************************************************************
-void Log::open(QStringList const &filePaths) {
-    this->beginResetModel();
+bool Log::open(QStringList const &filePaths) {
     entries_.clear();
-    for (QString const &filePath: filePaths) {
-        this->appendFileContent(filePath);
+    errors_ = QString();
+    bool result = true;
+    this->beginResetModel();
+    try {
+        for (QString const &filePath: filePaths) {
+            this->appendFileContent(filePath);
+        }
+    } catch (Exception const &e) {
+        errors_ = e.what();
+        result = false;
     }
     this->endResetModel();
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in] filePath The path of the file.
-//****************************************************************************************************************************************************
-void Log::appendFileContent(QString const &filePath) {
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        throw Exception(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
-    }
-
-    qint64 lineNumber = 0;
-    while (!file.atEnd()) {
-        LogEntry const entry(QString::fromUtf8(file.readLine()));
-        lineNumber++;
-        if (entry.isValid()) {
-            entries_.append(entry);
-        } else {
-            qWarning() << QString("Invalid log entry at line %1: %2").arg(lineNumber).arg(entry.error());
-        }
-    }
+    return result;
 }
 
 
@@ -70,18 +60,18 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     LogEntry const &entry = entries_[index.row()];
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
-        case 0:
-            return entry.time().toString("yyyy-MM-dd HH:mm:ss.zzz");
-        case 1:
-            return LogEntry::levelToString(entry.level());
-        case 2:
-            return entry.package();
-        case 3:
-            return entry.message();
-        case 4:
-            return entry.fieldsString();
-        default:
-            return {};
+            case 0:
+                return entry.time().toString("yyyy-MM-dd HH:mm:ss.zzz");
+            case 1:
+                return LogEntry::levelToString(entry.level());
+            case 2:
+                return entry.package();
+            case 3:
+                return entry.message();
+            case 4:
+                return entry.fieldsString();
+            default:
+                return {};
         }
     }
     if (role == Qt::ForegroundRole) {
@@ -104,18 +94,18 @@ QVariant Log::headerData(int section, Qt::Orientation orientation, int role) con
         return QAbstractItemModel::headerData(section, orientation, role);
     }
     switch (section) {
-    case 0:
-        return tr("Time");
-    case 1:
-        return tr("Level");
-    case 2:
-        return tr("Package");
-    case 3:
-        return tr("Message");
-    case 4:
-        return tr("Fields");
-    default:
-        return {};
+        case 0:
+            return tr("Time");
+        case 1:
+            return tr("Level");
+        case 2:
+            return tr("Package");
+        case 3:
+            return tr("Message");
+        case 4:
+            return tr("Fields");
+        default:
+            return {};
     }
 }
 
@@ -149,4 +139,42 @@ Report Log::generateReport() const {
     report.endDate = entries_.back().time();
 
     return report;
+}
+
+
+//****************************************************************************************************************************************************
+/// \return true iff errors where encountered while parsing the log.
+//****************************************************************************************************************************************************
+bool Log::hasErrors() const {
+    return errors_.isEmpty();
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The description of the errors encountered while parsing.
+//****************************************************************************************************************************************************
+QString Log::errors() const {
+    return errors_;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] filePath The path of the file.
+//****************************************************************************************************************************************************
+void Log::appendFileContent(QString const &filePath) {
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        throw Exception(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
+    }
+
+    qint64 lineNumber = 0;
+    while (!file.atEnd()) {
+        LogEntry const entry(QString::fromUtf8(file.readLine()));
+        lineNumber++;
+        if (entry.isValid()) {
+            entries_.append(entry);
+        } else {
+            qWarning() << QString("Invalid log entry at line %1: %2").arg(lineNumber).arg(entry.error());
+        }
+    }
 }

@@ -39,8 +39,11 @@ MainWindow::MainWindow()
 //****************************************************************************************************************************************************
 void MainWindow::onActionOpenFile() {
     QString const filePath = QFileDialog::getOpenFileName(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
-    if (!filePath.isEmpty()) {
-        this->openFile(filePath);
+    if (filePath.isEmpty()) {
+        return;
+    }
+    if (log_.hasErrors()) {
+        QMessageBox::critical(this, "Error", log_.errors_);
     }
 }
 
