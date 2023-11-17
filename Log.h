@@ -9,6 +9,7 @@
 
 
 #include "LogEntry.h"
+#include "Report.h"
 
 
 //****************************************************************************************************************************************************
@@ -32,7 +33,9 @@ public: // member functions.
     QVariant data(QModelIndex const &index, int role) const override; ///< Get the data at an index in the model.
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override; ///< Get the header data for a row/column.
 
-    QList<LogEntry> const &entries(); ///< Returns a constant reference to the log entries.
+    QList<LogEntry> const &entries() const; ///< Returns a constant reference to the log entries.
+    bool isEmpty() const; ///< Check if the log is empty.
+    Report generateReport() const; ///< Generates a report from the log
 
 private: // member functions
     void appendFileContent(QString const &filePath); ///< Append the content of a file to the log.

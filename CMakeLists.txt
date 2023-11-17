@@ -5,7 +5,7 @@ set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 
 project(Analog)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -31,6 +31,11 @@ add_executable(Analog main.cpp
     MainWindow.ui
     FilterModel.cpp
     FilterModel.h
+    ReportDialog.cpp
+    ReportDialog.h
+    ReportDialog.ui
+    Report.cpp
+    Report.h
 )
 
 target_precompile_headers(Analog PRIVATE PCH.h)

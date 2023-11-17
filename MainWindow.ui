@@ -227,16 +227,23 @@ QHeaderView::section {
      <x>0</x>
      <y>0</y>
      <width>1543</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>&amp;File</string>
     </property>
     <addaction name="actionOpenFile"/>
    </widget>
-   <addaction name="menu_File"/>
+   <widget class="QMenu" name="menuLog">
+    <property name="title">
+     <string>&amp;Log</string>
+    </property>
+    <addaction name="actionShowReport"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuLog"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpenFile">
@@ -248,6 +255,17 @@ QHeaderView::section {
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionShowReport">
+   <property name="text">
+    <string>Show &amp;Report</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+R</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
  </widget>

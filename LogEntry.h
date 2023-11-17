@@ -49,7 +49,7 @@ private: // member functions
     void parse(QString const& str); ///< Parse the log entry from a string.
 private: // member functions
     QDateTime time_; ///< The entry date/time.
-    Level level_; ///< The entry level.
+    Level level_ { Level::Trace }; ///< The entry level.
     QString package_; ///< The entry package.
     QString message_; ///< The entry message.
     QMap<QString, QString> fields_; ///< The other entry fieldsString.

@@ -5,6 +5,7 @@
 
 
 #include "MainWindow.h"
+#include "ReportDialog.h"
 #include "Exception.h"
 
 
@@ -19,6 +20,7 @@ MainWindow::MainWindow()
     ui_.tableView->setModel(&filter_);
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
+    connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
     connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
     connect(ui_.editFilter, &QLineEdit::textChanged, this, &MainWindow::onTextFilterChanged);
     connect(ui_.editPackage, &QLineEdit::textChanged, this, &MainWindow::onPackageFilterChanged);
@@ -125,4 +127,16 @@ void MainWindow::dropEvent(QDropEvent *event) {
     QString const &path = urls[0].toLocalFile();
     this->openFile(path);
     event->acceptProposedAction();
+}
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void MainWindow::onActionShowReport() {
+    try {
+        ReportDialog dlg(this, log_.generateReport());
+        dlg.exec();
+    } catch (Exception const &e) {
+        QMessageBox::critical(this, "Error", e.message());
+    }
 }
