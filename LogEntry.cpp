@@ -14,6 +14,7 @@ namespace {
 QChar const doubleQuote('"'); ///< The double quote character.
 QChar const backslash('\\'); ///< The backslash character.
 QChar const equal('='); ///< The equal sign character.
+QChar const newLine('\n'); ///< The newline (or line feed) character.
 QString const keyTime = "time"; ///< The field name for time.
 QString const keyLevel = "level"; ///< The field name for level.
 QString const keyPackage = "pkg"; ///< The field name for package.
@@ -39,37 +40,26 @@ QStringList tokenize(QString const &str) {
     if (str.isEmpty()) {
         return result;
     }
-    QChar prevChar('\n');
+    QChar prevChar(0);
     bool inQuotes = false;
     QString acc;
-    int n = -1;
     for (QChar c: str) {
-        ++n;
         if ((c == doubleQuote) && (prevChar != backslash)) {
-            if (inQuotes) {
+            if (!acc.isEmpty()) {
                 result.append(acc);
-                inQuotes = false;
                 acc = QString();
-            } else {
-                if (!acc.isEmpty()) {
-                    throw Exception(QString("invalid quote found at position %1").arg(n));
-                }
-                inQuotes = true;
             }
+            inQuotes = !inQuotes;
             prevChar = c;
             continue;
         }
 
         if ((c == equal) && (!inQuotes)) {
-            if (acc.isEmpty()) {
-                throw Exception(QString("invalid equal sign found at position %1").arg(n));
-            } else {
-                if (result.size() % 2 != 0) {
-                    throw Exception(QString("invalid equal sign found at position %1").arg(n));
-                }
-                result.append(acc);
+            if (!acc.isEmpty()) {
+                result.push_back(acc);
                 acc = QString();
             }
+            result.push_back(c);
             prevChar = c;
             continue;
         }
@@ -170,6 +160,8 @@ QString LogEntry::fieldsString() const {
 
 
 //****************************************************************************************************************************************************
+/// This function throws an Exception if parsing fails.
+///
 /// \param[in] str The string.
 //****************************************************************************************************************************************************
 void LogEntry::parse(QString const &str) {
@@ -177,12 +169,17 @@ void LogEntry::parse(QString const &str) {
         QStringList const tokens = tokenize(str);
         qsizetype const count = tokens.size();
         QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the year not in the log timestamps? We ignore year change for now...
-        if (count % 2 != 0) {
+        if (count % 3 != 0) {
             throw Exception("Invalid number of elements after tokenization.");
         }
-        for (int i = 0; i < count; i += 2) {
+        for (int i = 0; i < count; i += 3) {
+            QString const &expectedEqual = tokens[i + 1];
+            if (expectedEqual != equal) {
+                throw Exception(QString("expected equal sign but encountered '%1'")
+                .arg(expectedEqual.size() < 10 ? expectedEqual : expectedEqual.left(10) + "..."));
+            }
             QString const &key = tokens[i];
-            QString const &value = tokens[i + 1];
+            QString const &value = tokens[i + 2];
             if (fields_.contains(key)) {
                 throw Exception(QString("Duplicate field \"%1\"").arg(key));
             }

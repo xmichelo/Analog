@@ -26,8 +26,8 @@ public: // member functions.
     Log &operator=(Log const &) = delete; ///< Disabled assignment operator.
     Log &operator=(Log &&) = delete; ///< Disabled move assignment operator.
 
-    bool open(QString const &filePath); ///< Open a log from file.
-    bool open(QStringList const &filePaths); ///< Open a log from an ordered list of files.
+    void open(QString const &filePath); ///< Open a log from file.
+    void open(QStringList const &filePaths); ///< Open a log from an ordered list of files.
     int rowCount(QModelIndex const &parent) const override; ///< Get the number of rows in the model.
     int columnCount(QModelIndex const &parent) const override; ///< Get the number of columns in the model.
     QVariant data(QModelIndex const &index, int role) const override; ///< Get the data at an index in the model.
@@ -37,13 +37,13 @@ public: // member functions.
     bool isEmpty() const; ///< Check if the log is empty.
     Report generateReport() const; ///< Generates a report from the log.
     bool hasErrors() const; ///< Returns true iff errors where encountered while parsing the log.
-    QString errors() const; ///< Returns the error encountered while parsing the log.
+    QStringList errors() const; ///< Returns the error encountered while parsing the log.
 
 private: // member functions
     void appendFileContent(QString const &filePath); ///< Append the content of a file to the log.
 
 public: // data members
-    QString errors_; ///< The errors encountered while passing the log.
+    QStringList errors_; ///< The errors encountered while passing the log.
     QList<LogEntry> entries_; ///< The log entries.
 };
 

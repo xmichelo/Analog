@@ -49,6 +49,7 @@ public slots:
     void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
     void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
     void openFile(QString const &path); ///< Slot for opening a given file.
+    void onLogLoaded(); ///< Slot for the loading of a log.
 
 private: // data members.
     Ui::MainWindow ui_{}; ///< The GUI for the window.

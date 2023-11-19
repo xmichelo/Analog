@@ -4,10 +4,9 @@
 
 //****************************************************************************************************************************************************
 /// \param[in] filePath The path of the log file.
-/// \return true if no parsing error occurred.
 ///***************************************************************************************************************************************************
-bool Log::open(QString const &filePath) {
-    return this->open(QStringList{filePath});
+void Log::open(QString const &filePath) {
+    this->open(QStringList{filePath});
 }
 
 
@@ -15,23 +14,19 @@ bool Log::open(QString const &filePath) {
 /// No check is perform on the ordering of the file.
 ///
 /// \param[in] filePaths The ordered list of files forming the log.
-/// \return true if no parsing error occurred.
 //****************************************************************************************************************************************************
-bool Log::open(QStringList const &filePaths) {
+void Log::open(QStringList const &filePaths) {
     entries_.clear();
-    errors_ = QString();
-    bool result = true;
+    errors_.clear();
     this->beginResetModel();
     try {
         for (QString const &filePath: filePaths) {
             this->appendFileContent(filePath);
         }
     } catch (Exception const &e) {
-        errors_ = e.what();
-        result = false;
+        errors_ = {e.message()};
     }
     this->endResetModel();
-    return result;
 }
 
 
@@ -146,14 +141,14 @@ Report Log::generateReport() const {
 /// \return true iff errors where encountered while parsing the log.
 //****************************************************************************************************************************************************
 bool Log::hasErrors() const {
-    return errors_.isEmpty();
+    return !errors_.isEmpty();
 }
 
 
 //****************************************************************************************************************************************************
 /// \return The description of the errors encountered while parsing.
 //****************************************************************************************************************************************************
-QString Log::errors() const {
+QStringList Log::errors() const {
     return errors_;
 }
 
@@ -164,17 +159,19 @@ QString Log::errors() const {
 void Log::appendFileContent(QString const &filePath) {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        throw Exception(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
+        errors_.append(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
+        return;
     }
 
-    qint64 lineNumber = 0;
+    int errCount = 0;
     while (!file.atEnd()) {
         LogEntry const entry(QString::fromUtf8(file.readLine()));
-        lineNumber++;
         if (entry.isValid()) {
             entries_.append(entry);
         } else {
-            qWarning() << QString("Invalid log entry at line %1: %2").arg(lineNumber).arg(entry.error());
+            errors_.append(QString("%1: Invalid log entry at line %2: %3").arg(QFileInfo(filePath).fileName()).arg(entries_.count() + errCount + 1)
+                .arg(entry.error()));
+            ++errCount;
         }
     }
 }

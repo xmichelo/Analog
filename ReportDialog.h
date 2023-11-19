@@ -29,7 +29,7 @@ public slots:
     void onSave(); ///< Slot for the 'Save' button.
 
 private: // data members
-    Ui::ReportDialog ui_ {}; ///< The UI for the dialog.
+    Ui::ReportDialog ui_{}; ///< The UI for the dialog.
     Report const report_; ///< The report.
 };
 

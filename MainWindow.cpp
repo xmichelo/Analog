@@ -21,7 +21,7 @@ MainWindow::MainWindow()
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
-    connect(&log_, &Log::modelReset, ui_.tableView, &QTableView::resizeColumnsToContents);
+    connect(&log_, &Log::modelReset, this, &MainWindow::onLogLoaded);
     connect(ui_.editFilter, &QLineEdit::textChanged, this, &MainWindow::onTextFilterChanged);
     connect(ui_.editPackage, &QLineEdit::textChanged, this, &MainWindow::onPackageFilterChanged);
     connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
@@ -42,9 +42,7 @@ void MainWindow::onActionOpenFile() {
     if (filePath.isEmpty()) {
         return;
     }
-    if (log_.hasErrors()) {
-        QMessageBox::critical(this, "Error", log_.errors_);
-    }
+    this->openFile(filePath);
 }
 
 
@@ -86,6 +84,14 @@ void MainWindow::onPackageFilterChanged(QString const &value) {
 void MainWindow::openFile(QString const &filePath) {
     try {
         log_.open(filePath);
+        if (log_.hasErrors()) {
+            QStringList errors = log_.errors();
+            if (errors.size() > 10) {
+                errors = errors.first(10);
+                errors.append("...");
+            }
+            QMessageBox::critical(this, "Error", errors.join("\n"));
+        }
     } catch (Exception const &e) {
         QMessageBox::critical(this, tr("Error"), e.message());
     }
@@ -142,4 +148,13 @@ void MainWindow::onActionShowReport() {
     } catch (Exception const &e) {
         QMessageBox::critical(this, "Error", e.message());
     }
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void MainWindow::onLogLoaded() {
+    ui_.tableView->resizeColumnsToContents();
+    ui_.tableView->setColumnWidth(3, qMin(ui_.tableView->columnWidth(3), 600));
 }
