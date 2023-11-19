@@ -5,6 +5,7 @@
 
 
 #include "MainWindow.h"
+#include "FilenameInfo.h"
 #include "ReportDialog.h"
 #include "Exception.h"
 
@@ -35,14 +36,52 @@ MainWindow::MainWindow()
 
 
 //****************************************************************************************************************************************************
+/// \param[in, out] filePaths The list of file paths that are about to be opened. On exit, if the function returned true, the files
+/// are sorted alphabetically.
+/// \return true iff the file can be opened.
+//****************************************************************************************************************************************************
+bool MainWindow::validateFilesForOpening(QStringList &filePaths) {
+    try {
+        if (filePaths.isEmpty()) {
+            return false;
+        }
+
+        std::sort(filePaths.begin(), filePaths.end(), [](QString const &leftFilePath, QString const &rightFilePath) -> bool {
+            return QFileInfo(leftFilePath).fileName() < QFileInfo(rightFilePath).fileName();
+        });
+
+        QString sessionID;
+        for (QString const &filePath: filePaths) {
+            QString const filename = QFileInfo(filePath).fileName();
+            std::optional<FilenameInfo> info = FilenameInfo::parseFilename(filename);
+            if ((!info) && (filePaths.count() > 1)) {
+                throw Exception(QString("%1 does not use the log file name convention and cannot be opened along other files.").arg(filename));
+            }
+            if (sessionID.isEmpty()) {
+                sessionID = info->sessionID;
+            }
+            if (sessionID != info->sessionID) {
+                throw Exception(QString("Cannot open files from different sessions."));
+            }
+        }
+
+        return true;
+    } catch (Exception const &e) {
+        QMessageBox::critical(this, "Error", e.message());
+        return false;
+    }
+}
+
+
+//****************************************************************************************************************************************************
 //
 //****************************************************************************************************************************************************
 void MainWindow::onActionOpenFile() {
-    QString const filePath = QFileDialog::getOpenFileName(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
-    if (filePath.isEmpty()) {
+    QStringList const filePaths = QFileDialog::getOpenFileNames(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
+    if (filePaths.isEmpty()) {
         return;
     }
-    this->openFile(filePath);
+    this->open(filePaths);
 }
 
 
@@ -79,11 +118,15 @@ void MainWindow::onPackageFilterChanged(QString const &value) {
 
 
 //****************************************************************************************************************************************************
-/// \param[in] filePath The path of the file to open.
+/// \param[in] filePaths The list of file paths to open
 //****************************************************************************************************************************************************
-void MainWindow::openFile(QString const &filePath) {
+void MainWindow::open(QStringList const &filePaths) {
     try {
-        log_.open(filePath);
+        QStringList paths = filePaths;
+        if (!validateFilesForOpening(paths)) {
+            return;
+        }
+        log_.open(paths);
         if (log_.hasErrors()) {
             QStringList errors = log_.errors();
             if (errors.size() > 10) {
@@ -133,8 +176,9 @@ void MainWindow::dropEvent(QDropEvent *event) {
     if (urls.empty()) {
         return;
     }
-    QString const &path = urls[0].toLocalFile();
-    this->openFile(path);
+    QStringList paths;
+    std::transform(urls.begin(), urls.end(), std::back_inserter(paths),[](QUrl const& url) -> QString { return url.toLocalFile(); } );
+    this->open(paths);
     event->acceptProposedAction();
 }
 

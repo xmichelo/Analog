@@ -27,7 +27,9 @@ public: // member functions.
     MainWindow &operator=(MainWindow const &) = delete; ///< Disabled assignment operator.
     MainWindow &operator=(MainWindow &&) = delete; ///< Disabled move assignment operator.
 
-private: // data members
+private: // members functions
+    bool validateFilesForOpening(QStringList &filePaths); ///< Validate the files paths before opening.
+
     /// \name Drag and drop functions
     ///\{
     void dragEnterEvent(QDragEnterEvent *event) override; ///< Drag enter event handler
@@ -48,7 +50,7 @@ public slots:
     void onPackageFilterChanged(QString const &value); ///< Slot for the change of the packet filter edit.
     void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
     void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
-    void openFile(QString const &path); ///< Slot for opening a given file.
+    void open(QStringList const &filePaths); ///< Slot for opening a given file.
     void onLogLoaded(); ///< Slot for the loading of a log.
 
 private: // data members.

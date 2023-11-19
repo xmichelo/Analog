@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     try {
         w.show();
         if (argc > 1) {
-            QTimer::singleShot(0, &w, [argv, &w]() { w.openFile(QString(argv[1])); });
+            QTimer::singleShot(0, &w, [argv, &w]() { w.open(QStringList { QString(argv[1]) }); });
         }
         return QApplication::exec();
     } catch (Exception const &e) {

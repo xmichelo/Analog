@@ -22,6 +22,8 @@ add_executable(Analog main.cpp
     AnalogApp.h
     Exception.cpp
     Exception.h
+    FilenameInfo.cpp
+    FilenameInfo.h
     Log.cpp
     Log.h
     LogEntry.cpp
@@ -31,11 +33,11 @@ add_executable(Analog main.cpp
     MainWindow.ui
     FilterModel.cpp
     FilterModel.h
+    Report.cpp
+    Report.h
     ReportDialog.cpp
     ReportDialog.h
     ReportDialog.ui
-    Report.cpp
-    Report.h
 )
 
 target_precompile_headers(Analog PRIVATE PCH.h)
