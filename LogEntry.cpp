@@ -27,6 +27,7 @@ QString const warnColor("#fdd6a5"); ///< The color for the warn log level.
 QString const errorColor("#ffadad"); ///< The color for the error log level.
 QString const fatalColor("#a0c4ff"); ///< The color for the fatal log level.
 QString const panicColor("#bdb2ff"); ///< The color for the panic log level.
+QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the year not in the log timestamps? We ignore year change for now...
 
 
 }
@@ -104,7 +105,7 @@ bool LogEntry::isValid() const {
 //****************************************************************************************************************************************************
 /// \return The entry time.
 //****************************************************************************************************************************************************
-QDateTime LogEntry::time() const {
+QString LogEntry::time() const {
     return time_;
 }
 
@@ -168,7 +169,6 @@ void LogEntry::parse(QString const &str) {
     try {
         QStringList const tokens = tokenize(str);
         qsizetype const count = tokens.size();
-        QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the year not in the log timestamps? We ignore year change for now...
         if (count % 3 != 0) {
             throw Exception("Invalid number of elements after tokenization.");
         }
@@ -184,11 +184,7 @@ void LogEntry::parse(QString const &str) {
                 throw Exception(QString("Duplicate field \"%1\"").arg(key));
             }
             if (key == keyTime) {
-                time_ = QDateTime::fromString(yearStr + value, "yyyy MMM dd HH:mm:ss.zzz");
-                if (!time_.isValid()) {
-                    throw Exception(QString("Invalid time %1").arg(value));
-                }
-
+                time_ = value;
                 continue;
             }
             if (key == keyLevel) {
@@ -288,4 +284,13 @@ QColor LogEntry::levelColor(LogEntry::Level level) {
         qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
         return traceColor;
     }
+}
+
+QDateTime LogEntry::dateTime() const {
+    return QDateTime::fromString(yearStr + time_, "yyyy MMM dd HH:mm:ss.zzz");
+//                if (!time_.isValid()) {
+//                    throw Exception(QString("Invalid time %1").arg(value));
+//                }
+
+
 }

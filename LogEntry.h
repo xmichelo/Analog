@@ -32,7 +32,8 @@ public: // member functions.
     LogEntry &operator=(LogEntry &&) = default; ///< Disabled move assignment operator.
 
     bool isValid() const; ///< Return true iff the log entry is valid.
-    QDateTime time() const; ///< Return the entry time.
+    QString time() const; ///< Return the entry time.
+    QDateTime dateTime() const; ///< Return the date/time of the entry.
     Level level() const; ///< Return the entry level.
     QString package() const; ///< Return the entry package.
     QString message() const; ///< Return the entry message.
@@ -48,7 +49,7 @@ public: // static members
 private: // member functions
     void parse(QString const& str); ///< Parse the log entry from a string.
 private: // member functions
-    QDateTime time_; ///< The entry date/time.
+    QString time_; ///< The entry date/time.
     Level level_ { Level::Trace }; ///< The entry level.
     QString package_; ///< The entry package.
     QString message_; ///< The entry message.

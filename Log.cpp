@@ -56,7 +56,7 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
             case 0:
-                return entry.time().toString("yyyy-MM-dd HH:mm:ss.zzz");
+                return entry.dateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
             case 1:
                 return LogEntry::levelToString(entry.level());
             case 2:
@@ -130,8 +130,8 @@ Report Log::generateReport() const {
     }
 
     Report report;
-    report.startDate = entries_.front().time();
-    report.endDate = entries_.back().time();
+    report.startDate = entries_.front().dateTime();
+    report.endDate = entries_.back().dateTime();
 
     return report;
 }
