@@ -1,0 +1,189 @@
+time="Oct 30 09:10:20.858" level=info msg="Run app" SentryID="k8jwFdFskPxr1yGyMgZE1Mn0n5ofYJnedhGOLrP3F+Y=" appName="Proton Mail Bridge" args="[/Users/michelon/Code/Proton/bridge/cmd/Desktop-Bridge/bridge -c]" build="2022-10-18T13:13:13+0200" revision=5b650b1be3 runtime=darwin tag=devel-xmi version=3.99.99+git
+time="Oct 30 09:10:20.858" level=debug msg="Checking for other instances"
+time="Oct 30 09:10:20.858" level=debug msg="Created lock file; no other instance is running" path=/Users/michelon/Library/Caches/protonmail/bridge-v3/bridge-v3.lock
+time="Oct 30 09:10:20.858" level=debug msg="Creating vault"
+time="Oct 30 09:10:20.858" level=debug msg="Loading vault from directory" vaultDir="/Users/michelon/Library/Application Support/protonmail/bridge-v3"
+time="Oct 30 09:10:20.878" level=debug msg="Vault created" corrupt=false insecure=false
+time="Oct 30 09:10:20.878" level=info msg="Vault loaded" DoH=false autoUpdate=false lastVersion=3.99.99+git rollout=0.6668597594749908 showAllMail=true updateCh=stable
+time="Oct 30 09:10:20.878" level=debug msg="Creating cookie jar"
+time="Oct 30 09:10:20.878" level=debug msg="Creating bridge"
+time="Oct 30 09:10:20.878" level=debug msg="Creating autostarter"
+time="Oct 30 09:10:20.878" level=debug msg="Creating updater" updates="/Users/michelon/Library/Application Support/protonmail/bridge-v3/updates"
+time="Oct 30 09:10:20.884" level=info msg="Successfully saved gRPC Focus service config file" path="/Users/michelon/Library/Application Support/protonmail/bridge-v3/grpcFocusServerConfig.json" pkg=focus/service
+time="Oct 30 09:10:20.884" level=debug msg="Total System Memory: 65536"
+time="Oct 30 09:10:20.884" level=debug msg="Max memory usage for sync Download=128MB Building=128MB Predicted Max Total=1024MB"
+time="Oct 30 09:10:20.884" level=info msg="Creating IMAP server" gluonDB="/Users/michelon/Library/Application Support/protonmail/bridge-v3/gluon/backend/db" gluonStore="/Users/michelon/Library/Application Support/protonmail/bridge-v3/gluon/backend/store" logClient=false logServer=false version=3.99.99+git
+time="Oct 30 09:10:20.884" level=debug msg="Publishing event" event=IMAPServerCreated
+time="Oct 30 09:10:20.884" level=info msg="Creating SMTP server" logSMTP=false
+time="Oct 30 09:10:20.885" level=info msg="Checking for updates"
+time="Oct 30 09:10:20.885" level=info msg="Loading users" count=0
+time="Oct 30 09:10:20.885" level=debug msg="Running frontend"
+time="Oct 30 09:10:20.885" level=info msg="Finished loading users"
+time="Oct 30 09:10:20.885" level=debug msg="Publishing event" event=AllUsersLoaded
+time="Oct 30 09:10:41.994" level=info msg="Authorizing user for login" username="******** (805391c7)"
+time="Oct 30 09:10:42.794" level=info msg="[MANAGER] 200 OK: POST https://mail-api.proton.me/auth/v4/info"
+time="Oct 30 09:10:43.716" level=error msg="422 POST https://mail-api.proton.me/auth/v4: The password is not correct. Please try again with a different password. (Code=8002, Status=422), Attempt 1"
+time="Oct 30 09:10:43.716" level=error msg="Cannot login: failed to create new API client: 422 POST https://mail-api.proton.me/auth/v4: The password is not correct. Please try again with a different password. (Code=8002, Status=422)" pkg=frontend/cli
+time="Oct 30 09:10:50.887" level=error msg="Get \"https://bridgeteam.protontech.ch/bridgeteam/autoupdates/download/bridge/version_darwin.json\": dial tcp 185.70.42.55:443: i/o timeout, Attempt 1"
+time="Oct 30 09:11:20.994" level=error msg="Get \"https://bridgeteam.protontech.ch/bridgeteam/autoupdates/download/bridge/version_darwin.json\": dial tcp 185.70.42.55:443: i/o timeout, Attempt 2"
+time="Oct 30 09:11:51.096" level=error msg="Get \"https://bridgeteam.protontech.ch/bridgeteam/autoupdates/download/bridge/version_darwin.json\": dial tcp 185.70.42.55:443: i/o timeout, Attempt 3"
+time="Oct 30 09:12:04.637" level=info msg="Authorizing user for login" username="******** (805391c7)"
+time="Oct 30 09:12:10.224" level=info msg="[MANAGER] 200 OK: POST https://mail-api.proton.me/auth/v4/info"
+time="Oct 30 09:12:11.654" level=info msg="[MANAGER] 200 OK: POST https://mail-api.proton.me/auth/v4"
+time="Oct 30 09:12:21.390" level=error msg="Get \"https://bridgeteam.protontech.ch/bridgeteam/autoupdates/download/bridge/version_darwin.json\": dial tcp 185.70.42.55:443: i/o timeout, Attempt 4"
+time="Oct 30 09:12:21.390" level=info msg="API status changed: down"
+time="Oct 30 09:12:21.390" level=debug msg="Publishing event" event=ConnStatusDown
+time="Oct 30 09:12:21.392" level=debug msg="Publishing event" event="UpdateCheckFailed: Error: Get \"https://bridgeteam.protontech.ch/bridgeteam/autoupdates/download/bridge/version_darwin.json\": dial tcp 185.70.42.55:443: i/o timeout"
+time="Oct 30 09:12:21.392" level=info msg="Handling API status down"
+time="Oct 30 09:12:21.392" level=info msg="Server Manager, network down stopping listeners"
+time="Oct 30 09:12:21.392" level=info msg="Closing SMTP server"
+time="Oct 30 09:12:21.392" level=debug msg="Publishing event" event=SMTPServerStopped
+time="Oct 30 09:12:21.392" level=info msg="Stopping IMAP listener"
+time="Oct 30 09:12:22.393" level=info msg="Pinging API"
+time="Oct 30 09:12:22.713" level=info msg="API status changed: up"
+time="Oct 30 09:12:22.713" level=debug msg="Publishing event" event=ConnStatusUp
+time="Oct 30 09:12:22.713" level=info msg="[MANAGER] 200 OK: GET https://mail-api.proton.me/tests/ping"
+time="Oct 30 09:12:22.713" level=info msg="Handling API status up"
+time="Oct 30 09:12:22.713" level=info msg="Loading users" count=0
+time="Oct 30 09:12:22.714" level=info msg="Finished loading users"
+time="Oct 30 09:12:22.714" level=debug msg="Publishing event" event=AllUsersLoaded
+time="Oct 30 09:12:22.714" level=info msg="Server Manager, network up starting listeners"
+time="Oct 30 09:12:22.714" level=info msg="Validating Listener State 0"
+time="Oct 30 09:12:27.364" level=info msg="Logging in authorized user" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:28.705" level=info msg="Adding vault user" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:28.706" level=info msg="Creating new user" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:31.719" level=info msg="Creating user object" numAddr=5 numLabels=16 userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:31.720" level=debug msg="No event ID present in storage, retrieving latest" service=user-events user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.033" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/events/latest" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.035" level=info msg="Starting service Last EventID=9vNYnE2TfWYDUDKubQiS0-DuQnF9JnAHC2Di8B5JY_pQj0jgAswNWnYiFB-vJJy8zhmJlWuq3LiSCj5SuW4JbA==" service=user-events user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.376" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/settings" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.376" level=debug msg="Telemetry initialised" telemetry=1
+time="Oct 30 09:12:32.376" level=debug msg="Starting service" service=smtp user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.377" level=debug msg="Adding SMTP Account" user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.377" level=info msg="Starting service main loop" service=telemetry user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.377" level=info msg="Starting user identity service" numAddr=5 service=user-identity user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.377" level=info msg="Starting service main loop" service=smtp user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.637" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/labels?Type=4" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:32.998" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/labels?Type=3" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.228" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/labels?Type=1" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.228" level=info msg="Adding user to imap server" addrID="D9eM6FuvlFQyVTleJ-iQJWNusPjLoPRutIn3GIpw6Uc5-O0SmduLtXrLFGWz2tF4JRnlbblYaki2Y2LbQ11QEA=="
+time="Oct 30 09:12:33.228" level=info msg="Creating new IMAP user" addrID="D9eM6FuvlFQyVTleJ-iQJWNusPjLoPRutIn3GIpw6Uc5-O0SmduLtXrLFGWz2tF4JRnlbblYaki2Y2LbQ11QEA=="
+time="Oct 30 09:12:33.233" level=debug msg="Running database migrations" tx=tx
+time="Oct 30 09:12:33.233" level=debug msg="Version table does not exist, running all migrations"
+time="Oct 30 09:12:33.233" level=debug msg="Running migration for version 0"
+time="Oct 30 09:12:33.233" level=debug msg="Table 'deleted_subscriptions' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'mailboxes' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'mailbox_flags' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'mailbox_attrs' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'mailbox_perm_flags' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'messages' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'message_flags' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'ui_ds' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Table 'gluon_version' does not exist, creating"
+time="Oct 30 09:12:33.234" level=debug msg="Running migration for version 1"
+time="Oct 30 09:12:33.235" level=debug msg="Running migration for version 2"
+time="Oct 30 09:12:33.235" level=debug msg="Migrations completed"
+time="Oct 30 09:12:33.236" level=info msg="Setting gluon ID" addrID="D9eM6FuvlFQyVTleJ-iQJWNusPjLoPRutIn3GIpw6Uc5-O0SmduLtXrLFGWz2tF4JRnlbblYaki2Y2LbQ11QEA==" gluonID=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.236" level=debug msg="Received IMAP event" event=events.UserAdded
+time="Oct 30 09:12:33.236" level=info msg="Received mailbox message count" count=0 gluonID=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f labelID=GLUON-INTERNAL-RECOVERY-MBOX
+time="Oct 30 09:12:33.236" level=info msg="Created new IMAP user" addrID="D9eM6FuvlFQyVTleJ-iQJWNusPjLoPRutIn3GIpw6Uc5-O0SmduLtXrLFGWz2tF4JRnlbblYaki2Y2LbQ11QEA==" gluonID=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.236" level=info msg="Validating Listener State 1"
+time="Oct 30 09:12:33.236" level=info msg="Starting IMAP server" port=1143 ssl=false
+time="Oct 30 09:12:33.236" level=info msg=Resuming service=user-events user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.236" level=debug msg="Publishing event" event="UserLoggedIn: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.236" level=info msg="Starting IMAP Service" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=info msg="Sync triggered" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=debug msg="Checking for heartbeat"
+time="Oct 30 09:12:33.237" level=info msg="Beginning user sync" service=imap start="2023-10-30 09:12:33.237034 +0100 CET m=+132.382687084" user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=info msg="Syncing labels" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=debug msg="Received is telemetry enabled request" service=telemetry user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=debug msg="Received IMAP event" event=events.ListenerAdded
+time="Oct 30 09:12:33.237" level=debug msg="Received user event" event="SyncStarted: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=debug msg="Publishing event" event="SyncStarted: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = Folders, Mailbox.Name = Folders" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.237" level=debug msg="Publishing event" event="IMAPServerReady: Port 1143"
+time="Oct 30 09:12:33.237" level=info msg="Restarting SMTP server"
+time="Oct 30 09:12:33.237" level=debug msg="Publishing event" event=SMTPServerStopped
+time="Oct 30 09:12:33.237" level=debug msg="Received is telemetry enabled request" service=telemetry user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.237" level=info msg="Creating SMTP server" logSMTP=false
+time="Oct 30 09:12:33.237" level=info msg="Starting SMTP server" port=1025 ssl=false
+time="Oct 30 09:12:33.237" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = Labels, Mailbox.Name = Labels" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.238" level=debug msg="Publishing event" event="SMTPServerReady: Port 1025"
+time="Oct 30 09:12:33.238" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 7, Mailbox.Name = Sent" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.238" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 3, Mailbox.Name = Trash" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.239" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 12, Mailbox.Name = Scheduled" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.239" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 4, Mailbox.Name = Spam" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.239" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 6, Mailbox.Name = Archive" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.239" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 0, Mailbox.Name = INBOX" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.239" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 8, Mailbox.Name = Drafts" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.240" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 2kSLEKeUv8Uh..., Mailbox.Name = Folders/Test..." user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.240" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 10, Mailbox.Name = Starred" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.240" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = 5, Mailbox.Name = All Mail" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.240" level=debug msg="Applying update" update="MailboxCreated: Mailbox.ID = VgU_TViRJjPh..., Mailbox.Name = Labels/Bug" user-id=1d5a3e61-7ac6-47ab-8e3d-2d62f61a538f
+time="Oct 30 09:12:33.241" level=info msg="Synced labels" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.812" level=info msg="200 OK: POST https://mail-api.proton.me/data/v1/stats" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:33.812" level=info msg="Heartbeat sent" metrics="{bridge.any.usage bridge_heartbeat {1} {off off off off off on starttls starttls default default default default 3.99.99+git 66}}" pkg=telemetry
+time="Oct 30 09:12:34.065" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/count" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:34.066" level=info msg="Syncing messages" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:34.066" level=info msg="Job started" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:35.613" level=info msg="200 OK: POST https://mail-api.proton.me/mail/v4/messages" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:35.614" level=info msg="Creating new child job" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:35.614" level=debug msg="Metada collected: 64/1008" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:35.614" level=debug msg="Received user event" event="SyncProgress: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ==, Progress: 0.015873, Elapsed: 2.4s, Remaining: 145.1s" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:35.614" level=debug msg="Publishing event" event="SyncProgress: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ==, Progress: 0.015873, Elapsed: 2.4s, Remaining: 145.1s"
+time="Oct 30 09:12:37.573" level=info msg="200 OK: POST https://mail-api.proton.me/mail/v4/messages" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:37.573" level=info msg="Creating new child job" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:37.573" level=debug msg="Metada collected: 128/1008" service=imap user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:37.573" level=debug msg="Received user event" event="SyncProgress: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ==, Progress: 0.031746, Elapsed: 4.3s, Remaining: 131.2s" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:37.573" level=debug msg="Publishing event" event="SyncProgress: UserID: yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ==, Progress: 0.031746, Elapsed: 4.3s, Remaining: 131.2s"
+time="Oct 30 09:12:37.641" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/-zF4p_tb2X4QS4x5cHIz_XqkkeAkHaKTCtAkTHSK635r3Ff9r9ohfLYpaVdj-Bacq24MsmzpOMQdreN2TMdz9g==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:37.790" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/e_WZ5NrvtXkLz0lC1XORIA2YMgzLWUd7stD1D83ka3tKePYIYkBc8UP47SdNjd3oOgo5x03dZmm6MOmvgeV-KA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:38.543" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/cja69g_wD7xwGwxlsGA6slcpales3djBIikPH92svvCLUUXcEQ3ZDNNDV5qIFINd5GSoHQNtfbuWlhuvWW6Eyg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:38.651" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/w9I96b1yfaaKaxZY65Rla7K8WWniEyL7o3c2AgI3d2VVg3Duj1pV5sQb1U7sPkH45A6MfUbZMz9p1F4xjfKQTw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:39.093" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/P163DiN790jgvi9x48_iCrMlhAbO0FEWBQULM6-UdCGK2ANwsWFW6DcVtr5H684gYaxpJFQzSo95bY0Mr55whA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:39.594" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/NTa7h7nqteSIefqn33sfpYq1IZ-HFLrUDU1H52WxMywBndIiV9R8XWMkMDmW-5nvxyKL3GxgQixYn_uc7Qq3fw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:39.915" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/0-HcubcsNlb8NLWsGFpnjJ-jhHkSm3aoRlFH82d3mNsbs0sd0_MJuXkJ1bdx1d29VUWhVh-tz_0hRP03OtFazQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:39.965" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/R4rLBM-FxggW5JF43es-LgtvTjdPMbUkE1MXETRVU1GWH6JYDN7TItsZuIYSgH3si9rKi9a6Ua86Zs1frtUPxQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:41.368" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/pEExotN1K1gFpYT2IJEv_OaFcSKc4Sn3-tcj5x1AFyfAfq3YCmtB7lEcew0HUBmG3bzKKxoM5NzCtHDr6VmduQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:41.426" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/0W-qx3MBtMcg-X-VZiE9iCoe-2hT57NB6DfviKncdmuk8fFynUIusmyeYp_dloEF_PfZ7_CM-LGMAVXQWx-O4g==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:42.182" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/PqktR5o215nHB89VsKKVr-NGK1rk3PERKsS5cBKSe0Wez95H0i4O3NB7pNSlURdK91ZzBf4SGCrsljaEeGpOiA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:42.271" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/oAO2nfVRn0D_nWrL0KqstiYQa-e4YjO6pYkvBTbcQ-n99sBcHY6N0Hk3ybWQ4RQRxmTNiCWJ9d1lsS2V0SWmAw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:42.584" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/CCIvYNoN7kylJENDZS94apMaNIOt9ATNXtVMVOvcryhZOABXPbr9OKZNcywdh6WJhbrcM8hpb110IknmRaRX7Q==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:42.806" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/2YXKlPfZ5S93ID_RHv7GzRWi2MTy-bLO0_Z9cVkvnAwSEcjraoABQ8IFAUEkauGFKCEubRWmxEfJl036ehWPsQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:43.071" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/tdzTixKA2IWSS3yocb2j8oOy0OQFbvkCiqKXGgxoqwrSD5zNaImFTBmbB3zDasl7vtHPqotp_6XdVhx7Y0zcIQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:43.620" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/iA2MEkAhktHQQyoA723eHdKyREvtsy6mHJ4Ppsqg8Rgu493wFSn9m-5tajcK2u_OeSCkmHyoH9GGrmLjZjWNWw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:43.711" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/91xE7hVlcXPCZRw-ugF4MFp3ruSv8W-qYrmMO4-tS0hLNmPy8vbz2FQCjSAE3idDM8sB-8ji0EJ24Sdx4iZjzw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:44.450" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/TuDJHTngEUZcELHUWLL9yDYeogdoMXGY5d6zSHKFxibVmjYTC8oGMODvpOE9zJ1BC2YGLVfhMe9Tp8yNZa0f5A==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:44.792" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/eYltW6orksuepOp6qRFQzp9cDMjKaAT8BugHR22lWHByaSTxCmyATdwN4ImK-xoxVW1cQzy5s_DcjNlBuWaE9g==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:44.900" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/M2wbYppfQhQEsUX5cOPFTMQYLoiLm64ZLWIBukQifi8gJuq7pHwFkg1WM2YZKodSCNZfztDKpj2zkeNRkFj_cQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:45.116" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/6EPnKibCNFIcqFI_sQofbSejtZ85SfFfe8VnLCLjpE1BcOnl-V5fwc_anKivysjHIGATjKuE_kNYBMoBLrRdpg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:45.251" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/eFMlIyAoiOBfPZWb8eAsdPJQB36iHuk8m97iUVFMxy_o2_ei6LpnzJ6o7A457x-xKa0jxb4L8U7st8sb4CvvsQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:45.508" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/_fryD-1NbCdNl8NgWaCC4nsgd5Mb7huFD-FjSaD89A3TQLzpapfsOth7SeAlpLXeo95ITkAiM3uNPuqDD2Pwgg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:45.875" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/ZZWSqHyVZcmlwxWnKjyBNVIRYebxB0eVqNJ-1AHNdPG_GslWdCcX6sUqVN4Anq7UMfNUVWCzjji3B6e_IIRIfg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:46.594" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/69c-AQcMv7qBQPGPze41X0-s5GrVmpV83M7NJr9PxLRbxYAgiUZ8kkqXSaMaJLJcTfeV8-AECCEIHzvRrGLoFQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:46.604" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/8pJA72pumKxsaefblwC24W8DWmBx-9cJlfLe8MoTrF02cTDcPaCu5XJPzsXl5vH2bCDaVIyRbSGqloYkmG35Vg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:47.243" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/bvI7EWyXzbq-gJpXzkRcfUFBBeGjjhWxtWOx9tW1P4_KjN5L9DOKXDEe12EQfNmisZbuJBSbaVgz679erwR_gA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:47.822" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/GtF98Ql-ZRTbv3A_Nk0jHBM8m4GvhmlSA4jPzRQ-uhcIOMRDzi7Ab41sLFNYbknD6wIffY4VcW-0sjHv9nypnQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:47.822" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/n0UpD0vrz47_DQophkdpb-ttN_dzUDUnWNZFwDJAddu4OEyDXpr28ECAT2TSNM2DdwM-B3Q5txHjRkrbt7bqCQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:48.890" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/EqoBR9L18--vtJE9lfLv1CXrowJ8gYVNF67h1v8C5DmyPSvO6XxiBkNTamV2Fm_YRXWKt39qsnTOiVDz9ddlhA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:49.190" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/vIb70Gvp3xnDQ7toVhOh_7YDsbcdg8HAUgWK_wmIvaiuMQj3__Dyk7Cs1C3vbiAm-vaL8n7UzDxyscBaUVPA_w==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:50.891" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/LPhv4x5vd9W5gZ7h_SPcopEwUF1S0K70f0aaGHrxZ2rft5yGIM2ncf-3Ro0kOAKLqYUcOksZSqMe-SnHO_IC2g==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:51.088" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/tNVGmRxpju1aQFe5QJeBR3zwWLh8RJPb7pj5mHUVHCLyUAT6_FBHDCg8x_O_QM5tKpJ179Tj2elPb-bd3GqrIg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:51.569" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/oDMljNMKC2JLDo_c7_qIMKEKqQ564VQYZ-LHcBnV1F1TXM7l5knRKfg0manmUC90Xt-6n92zCWfYOoiWA1Vj8A==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:51.829" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/L1fdERUlJKViyve7rOs6dGd25QU0XmipD-5lpk1Qt3KWguZLVVv_YcmOjoQzewpSqeIpAYD1glBLr1TO6kUkdQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:52.189" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/73qxGnIxpyVrDtw22IOY2kq1EGTBI7-PF8l-kRMLvejbCIRucyIexFmfxmvtt9n9boOOt0Mre_m7WC0bXv_JKA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:52.575" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/2kvVoe2C7bcsgAyEsy3uTmvK2MGZSScwnue5hu7Mq8IPBOad-ibszml-xz5E3LqttLre4-LUC5J9vqqjMreHwg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:53.069" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/W4kE3upA0CQP7bWATILM4aKxjdRgQoyoaL00qL43xFaWUlauMpp4PXCIM8KOKhiQvIHO1qXjwkhSv5CilrqfNQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:53.352" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/wZNhCN_Axc9tRXiuiY6PKYofR_ETjIGROWB4Pv6CtjaDHdFHTxSnHmMKvLrso8bTbkPk0TqCkWanIFxiHv1cZA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:53.629" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/pqP4fFlVosFDl1_l5tJGrov2Vkwsk6NBdHigQlHpMymIIS_BDlEsqtGu52s4csSUuLVAV7bckYK6ojKkkc_fzQ==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:54.545" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/9IlAoxFCEkS6wckxmQlbZ5PCSQcoSptxTIl1zOdpX4c8QFbviTDn944Ko1ueMrrg0uQGzeCmDLtKFfN7_13rTA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:54.993" level=info msg="200 OK: GET https://mail-api.proton.me/core/v4/events/9vNYnE2TfWYDUDKubQiS0-DuQnF9JnAHC2Di8B5JY_pQj0jgAswNWnYiFB-vJJy8zhmJlWuq3LiSCj5SuW4JbA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:54.993" level=debug msg="No new API Events" service=user-events user="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:55.310" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/WaKsY6KN2AkXp_Ck5C88k3qC0yGDhg1yU7fFKAlSe5W8QfcQPtTmFETQpLKtQZRUUMSzkYGKCbEc_ua4Lvs9uw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:55.861" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/1DS2R_JSRrt37Z3qc2eTkxTjN0DAV8SPyyilk2Y2uC2qFNLhf2S7Z96tL0ZLGOQrmZecp7rOwMrRweIh9XyuXg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:56.329" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/blPzL1ggFniK2YHrdCJsMagey8ZyQIHBwzgC_VaPYkuwpXqUG35rdp6-C9djaFwnERXWD7Qql6qv3KtrVZe4Xw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:56.669" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/ngu7wNXIAmIJQGJbxOSKkdilMA-A3EyGRmJle-r49A0hhbmtMsTRwkPimGhv7Tv04kM-EdK26vb9teX5vuK7hw==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:57.230" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/4Yc8tSzSNDupd23BMWXekbJH6UT49rgGQWRlTDJa5H2t37rr3e7pTz-h2pvT8bozJRafMDdKhp7m1bQPYC9AoA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:12:57.490" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/Iqa60CcfMlniUg5N3XyMvMVqVWoueaPDBd5dahOdRSdwB1ofpAgArYxy4r9PCOu_l7Y4f_c6wUOtH3H_3CqsFA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:13:00.860" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/AYusxF1uqu6YuvERlkhu7mW5L6LJbpzxpo8w9lj6jujyT4nsejMFGDOblZzwS3vsNLFRQ8KB5CqfYYCQo-0zZA==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
+time="Oct 30 09:13:00.998" level=info msg="200 OK: GET https://mail-api.proton.me/mail/v4/messages/wik5QMFZhEZOs_HqkelvcSdABbL_cMxKUCl3kocaqhtxJqmSE9ooKt979QPq9PWHcfYSnhKmU5AU4P4HZ0j3dg==" userID="yWgHhghfqJz6UO1TMlO2C9-0_97tMga44wdNCzacd7jSfbDZP7pg5Z3EV5UfIojuZ9wcL-t9L39LMB8kkPdwqQ=="
