@@ -22,7 +22,8 @@ MainWindow::MainWindow()
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
-    connect(&log_, &Log::modelReset, this, &MainWindow::onLogLoaded);
+    connect(&filter_, &Log::modelReset, this, &MainWindow::onLogLoaded);
+    connect(&filter_, &Log::layoutChanged, this, &MainWindow::onLayoutChanged);
     connect(ui_.editFilter, &QLineEdit::textChanged, this, &MainWindow::onTextFilterChanged);
     connect(ui_.editPackage, &QLineEdit::textChanged, this, &MainWindow::onPackageFilterChanged);
     connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
@@ -201,4 +202,18 @@ void MainWindow::onActionShowReport() {
 void MainWindow::onLogLoaded() {
     ui_.tableView->resizeColumnsToContents();
     ui_.tableView->setColumnWidth(3, qMin(ui_.tableView->columnWidth(3), 600));
+    this->onLayoutChanged();
+}
+
+
+//****************************************************************************************************************************************************
+/// This slot is called when the filtering of the log change.
+//****************************************************************************************************************************************************
+void MainWindow::onLayoutChanged() {
+    qsizetype const entryCount = filter_.rowCount();
+    if (entryCount == 0) {
+        ui_.statusbar->clearMessage();
+    } else {
+        ui_.statusbar->showMessage(entryCount > 1 ? QString("%1 entries").arg(entryCount) : "1 entry");
+    }
 }

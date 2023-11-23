@@ -39,10 +39,14 @@ public: // member functions.
     bool hasErrors() const; ///< Returns true iff errors where encountered while parsing the log.
     QStringList errors() const; ///< Returns the error encountered while parsing the log.
 
-private: // member functions
+private: // static member functions.
+    static LogEntry::Format getLogFormat(QString const &file); ///< Determines the log file format.
+
+private: // member functions.
     void appendFileContent(QString const &filePath); ///< Append the content of a file to the log.
 
 public: // data members
+    LogEntry::Format format_ { LogEntry::Format::Unknown }; ///< The log format.
     QStringList errors_; ///< The errors encountered while passing the log.
     QList<LogEntry> entries_; ///< The log entries.
 };

@@ -154,24 +154,62 @@ QStringList Log::errors() const {
 
 
 //****************************************************************************************************************************************************
+/// \param[in] line A log line
+//****************************************************************************************************************************************************
+LogEntry::Format Log::getLogFormat(QString const &line) {
+    if (line.startsWith("time=")) {
+        return LogEntry::Format::Bridge_3_4_0;
+    }
+
+    if (line.contains(QRegularExpression(R"(^(PANI|FATA|ERRO|WARN|INFO|DEBU|TRAC)\[)"))) {
+        return LogEntry::Format::BridgeGUI_3_4_0;
+    }
+
+    return LogEntry::Format::Unknown;
+}
+
+
+//****************************************************************************************************************************************************
 /// \param[in] filePath The path of the file.
 //****************************************************************************************************************************************************
 void Log::appendFileContent(QString const &filePath) {
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        errors_.append(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
-        return;
+    try {
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            throw Exception(QString("The file '%1' could not be opened.").arg(QDir::toNativeSeparators(filePath)));
+        }
+
+        if (file.atEnd()) {
+            throw Exception(QString("The file '%1' is empty.").arg(QDir::toNativeSeparators(filePath)));
+        }
+
+        QString const line = QString::fromUtf8(file.readLine());
+        LogEntry::Format format = Log::getLogFormat(line);
+        if (format == LogEntry::Format::Unknown) {
+            throw Exception(QString("The file '%1' is not of a known log format.").arg(QDir::toNativeSeparators(filePath)));
+        }
+        if ((format_ != LogEntry::Format::Unknown) && (format_ != format)) {
+            throw Exception(QString("The file '%1' is not of the same format as the beginning of the log.").arg(QDir::toNativeSeparators(filePath)));
+        }
+        format_ = format;
+
+        LogEntry entry(line, format_);
+        int errCount = 0;
+        do {
+            if (entry.isValid()) {
+                entries_.append(entry);
+            } else {
+                errors_.append(
+                    QString("%1: Invalid log entry at line %2: %3").arg(
+                        QFileInfo(filePath).fileName()).arg(entries_.count() + errCount + 1).arg(entry.error()
+                    )
+                );
+                ++errCount;
+            }
+            entry = LogEntry(QString::fromUtf8(file.readLine()), format_);
+        } while (!file.atEnd());
+    } catch (Exception const &e) {
+        errors_.append(e.message());
     }
 
-    int errCount = 0;
-    while (!file.atEnd()) {
-        LogEntry const entry(QString::fromUtf8(file.readLine()));
-        if (entry.isValid()) {
-            entries_.append(entry);
-        } else {
-            errors_.append(QString("%1: Invalid log entry at line %2: %3").arg(QFileInfo(filePath).fileName()).arg(entries_.count() + errCount + 1)
-                .arg(entry.error()));
-            ++errCount;
-        }
-    }
 }

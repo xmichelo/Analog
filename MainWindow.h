@@ -52,6 +52,7 @@ public slots:
     void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
     void open(QStringList const &filePaths); ///< Slot for opening a given file.
     void onLogLoaded(); ///< Slot for the loading of a log.
+    void onLayoutChanged(); ///< Slot for the changing of the filtering.
 
 private: // data members.
     Ui::MainWindow ui_{}; ///< The GUI for the window.

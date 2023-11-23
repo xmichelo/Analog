@@ -36,7 +36,7 @@ QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the ye
 //****************************************************************************************************************************************************
 //
 //****************************************************************************************************************************************************
-QStringList tokenize(QString const &str) {
+QStringList tokenizeBridge34Entry(QString const &str) {
     QStringList result;
     if (str.isEmpty()) {
         return result;
@@ -88,9 +88,10 @@ QStringList tokenize(QString const &str) {
 
 //****************************************************************************************************************************************************
 /// \param[in] str The log entry string.
+/// \param[in] format The log file format.
 //****************************************************************************************************************************************************
-LogEntry::LogEntry(QString const &str) {
-    this->parse(str);
+LogEntry::LogEntry(QString const &str, Format format) {
+    this->parse(str, format);
 }
 
 
@@ -161,13 +162,48 @@ QString LogEntry::fieldsString() const {
 
 
 //****************************************************************************************************************************************************
-/// This function throws an Exception if parsing fails.
-///
+/// \param[in] str The string.
+/// \param[in] format The log format.
+//****************************************************************************************************************************************************
+void LogEntry::parse(QString const &str, Format format) {
+    switch (format) {
+        case Format::BridgeGUI_3_4_0:
+            this->parseBridgeGUI34Entry(str);
+            break;
+        case Format::Bridge_3_4_0:
+            this->parseBridge34Entry(str);
+            break;
+        case Format::Unknown:
+            throw Exception("Failed parsing of log entry of unknown format.");
+    }
+}
+
+
+//****************************************************************************************************************************************************
 /// \param[in] str The string.
 //****************************************************************************************************************************************************
-void LogEntry::parse(QString const &str) {
+void LogEntry::parseBridgeGUI34Entry(QString const &str) {
     try {
-        QStringList const tokens = tokenize(str);
+        QRegularExpression const rx(R"(^(?<level>PANI|FATA|ERRO|WARN|INFO|DEBU|TRAC)\[(?<time>.{19})]\s+(?<message>.*)$)");
+        QRegularExpressionMatch const match = rx.match(str);
+        if (!match.hasMatch()) {
+            throw Exception("Invalid log entry");
+        }
+        level_ = levelFromBridgeGUI34String(match.captured("level"));
+        time_ = match.captured("time");
+        message_ = match.captured("message");
+    } catch (Exception const &e) {
+        error_ = e.message();
+    }
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] str The string.
+//****************************************************************************************************************************************************
+void LogEntry::parseBridge34Entry(QString const &str) {
+    try {
+        QStringList const tokens = tokenizeBridge34Entry(str);
         qsizetype const count = tokens.size();
         if (count % 3 != 0) {
             throw Exception("Invalid number of elements after tokenization.");
@@ -176,7 +212,7 @@ void LogEntry::parse(QString const &str) {
             QString const &expectedEqual = tokens[i + 1];
             if (expectedEqual != equal) {
                 throw Exception(QString("expected equal sign but encountered '%1'")
-                .arg(expectedEqual.size() < 10 ? expectedEqual : expectedEqual.left(10) + "..."));
+                                    .arg(expectedEqual.size() < 10 ? expectedEqual : expectedEqual.left(10) + "..."));
             }
             QString const &key = tokens[i];
             QString const &value = tokens[i + 2];
@@ -188,7 +224,7 @@ void LogEntry::parse(QString const &str) {
                 continue;
             }
             if (key == keyLevel) {
-                level_ = LogEntry::levelFromString(value);
+                level_ = LogEntry::levelFromBridge34String(value);
                 continue;
             }
 
@@ -213,9 +249,10 @@ void LogEntry::parse(QString const &str) {
 
 
 //****************************************************************************************************************************************************
-//
+/// \param[in] str The string.
+/// \return The level parsed from the string
 //****************************************************************************************************************************************************
-LogEntry::Level LogEntry::levelFromString(QString const &str) {
+LogEntry::Level LogEntry::levelFromBridge34String(QString const &str) {
     if (str.compare("trace", Qt::CaseInsensitive) == 0)
         return Level::Trace;
     if (str.compare("debug", Qt::CaseInsensitive) == 0)
@@ -236,61 +273,86 @@ LogEntry::Level LogEntry::levelFromString(QString const &str) {
 
 
 //****************************************************************************************************************************************************
-//
+/// \param[in] str The string.
+/// \return The level parsed from the string
+//****************************************************************************************************************************************************LogEntry::Level LogEntry::levelFromBridge34String(QString const &str) {
+LogEntry::Level LogEntry::levelFromBridgeGUI34String(QString const &str) {
+    if (str.compare("TRAC", Qt::CaseInsensitive) == 0)
+        return Level::Trace;
+    if (str.compare("DEBU", Qt::CaseInsensitive) == 0)
+        return Level::Debug;
+    if (str.compare("INFO", Qt::CaseInsensitive) == 0)
+        return Level::Info;
+    if (str.compare("WARN", Qt::CaseInsensitive) == 0)
+        return Level::Warn;
+    if (str.compare("ERRO", Qt::CaseInsensitive) == 0)
+        return Level::Error;
+    if (str.compare("FATA", Qt::CaseInsensitive) == 0)
+        return Level::Fatal;
+    if (str.compare("PANI", Qt::CaseInsensitive) == 0)
+        return Level::Panic;
+    qCritical() << QString("Unknown log level '%1'").arg(str);
+    return Level::Trace;
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] level The level.
+/// \return The string for the level.
 //****************************************************************************************************************************************************
 QString LogEntry::levelToString(LogEntry::Level level) {
     switch (level) {
-    case Level::Trace:
-        return "trace";
-    case Level::Debug:
-        return "debug";
-    case Level::Info:
-        return "info";
-    case Level::Warn:
-        return "warning";
-    case Level::Error:
-        return "error";
-    case Level::Fatal:
-        return "fatal";
-    case Level::Panic:
-        return "panic";
-    default:
-        qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
-        return "unknown";
+        case Level::Trace:
+            return "trace";
+        case Level::Debug:
+            return "debug";
+        case Level::Info:
+            return "info";
+        case Level::Warn:
+            return "warning";
+        case Level::Error:
+            return "error";
+        case Level::Fatal:
+            return "fatal";
+        case Level::Panic:
+            return "panic";
+        default:
+            qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
+            return "unknown";
     }
 }
 
 
 //****************************************************************************************************************************************************
-//
+/// \param[in] level The level.
+/// \return The color associated with a level.
 //****************************************************************************************************************************************************
 QColor LogEntry::levelColor(LogEntry::Level level) {
     switch (level) {
-    case Level::Trace:
-        return traceColor;
-    case Level::Debug:
-        return debugColor;
-    case Level::Info:
-        return infoColor;
-    case Level::Warn:
-        return warnColor;
-    case Level::Error:
-        return errorColor;
-    case Level::Fatal:
-        return fatalColor;
-    case Level::Panic:
-        return panicColor;
-    default:
-        qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
-        return traceColor;
+        case Level::Trace:
+            return traceColor;
+        case Level::Debug:
+            return debugColor;
+        case Level::Info:
+            return infoColor;
+        case Level::Warn:
+            return warnColor;
+        case Level::Error:
+            return errorColor;
+        case Level::Fatal:
+            return fatalColor;
+        case Level::Panic:
+            return panicColor;
+        default:
+            qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
+            return traceColor;
     }
 }
 
+
+//****************************************************************************************************************************************************
+/// \return The date/time for the entry.
+//****************************************************************************************************************************************************
 QDateTime LogEntry::dateTime() const {
     return QDateTime::fromString(yearStr + time_, "yyyy MMM dd HH:mm:ss.zzz");
-//                if (!time_.isValid()) {
-//                    throw Exception(QString("Invalid time %1").arg(value));
-//                }
-
-
 }
