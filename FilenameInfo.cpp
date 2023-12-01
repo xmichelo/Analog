@@ -9,15 +9,13 @@
 
 
 namespace {
-
 QRegularExpression rx(R"(^(?<sessionID>\d{8}_\d{9})_(?<exe>lau|bri|gui)_(?<fileIndex>\d{3,})_v(?<version>.*)_(?<tag>.*)\.log$)"); ///< The regular expression for log file names.
-
 }
 
 
 //****************************************************************************************************************************************************
 /// \param[in] exe The 3-letter executable identifier string.
-/// \return THe
+/// \return The executable identifier.
 //****************************************************************************************************************************************************
 FilenameInfo::Executable parseExecutableIdentifier(QString const &exe) {
     if (exe.compare("bri", Qt::CaseInsensitive) == 0) {

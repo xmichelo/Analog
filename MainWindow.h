@@ -17,15 +17,15 @@
 /// \brief Main window class
 //****************************************************************************************************************************************************
 class MainWindow : public QMainWindow {
-Q_OBJECT
+    Q_OBJECT
 
 public: // member functions.
     MainWindow(); ///< Default constructor.
     MainWindow(MainWindow const &) = delete; ///< Disabled copy-constructor.
     MainWindow(MainWindow &&) = delete; ///< Disabled assignment copy-constructor.
     ~MainWindow() override = default; ///< Destructor.
-    MainWindow &operator=(MainWindow const &) = delete; ///< Disabled assignment operator.
-    MainWindow &operator=(MainWindow &&) = delete; ///< Disabled move assignment operator.
+    MainWindow& operator=(MainWindow const &) = delete; ///< Disabled assignment operator.
+    MainWindow& operator=(MainWindow &&) = delete; ///< Disabled move assignment operator.
 
 private: // members functions
     bool validateFilesForOpening(QStringList &filePaths); ///< Validate the files paths before opening.
@@ -39,7 +39,6 @@ private: // members functions
     ///\}
 
 public slots:
-
     /// \name Actions
     ///\{
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
@@ -55,7 +54,7 @@ public slots:
     void onLayoutChanged(); ///< Slot for the changing of the filtering.
 
 private: // data members.
-    Ui::MainWindow ui_{}; ///< The GUI for the window.
+    Ui::MainWindow ui_ {}; ///< The GUI for the window.
     Log log_; ///< The log
     FilterModel filter_; ///< The filter model for the log.
 };

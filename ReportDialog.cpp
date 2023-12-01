@@ -12,8 +12,8 @@
 /// \param[in] report The report.
 //****************************************************************************************************************************************************
 ReportDialog::ReportDialog(QWidget *parent, Report const &report)
-    : QDialog(parent)
-    , report_(report) {
+    : QDialog(parent),
+      report_(report) {
     ui_.setupUi(this);
     ui_.edit->setPlainText(report_.toString());
     connect(ui_.buttonClose, &QPushButton::clicked, this, &QDialog::accept);

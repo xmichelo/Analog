@@ -11,15 +11,16 @@
 //****************************************************************************************************************************************************
 /// \brief Custom Qt application class.
 //****************************************************************************************************************************************************
-class AnalogApp: public QApplication {
+class AnalogApp : public QApplication {
     Q_OBJECT
+
 public: // member functions.
     AnalogApp(int &argc, char *argv[]); ///< Default constructor.
-    AnalogApp(AnalogApp const&) = delete; ///< Disabled copy-constructor.
-    AnalogApp(AnalogApp&&) = delete; ///< Disabled assignment copy-constructor.
+    AnalogApp(AnalogApp const &) = delete; ///< Disabled copy-constructor.
+    AnalogApp(AnalogApp &&) = delete; ///< Disabled assignment copy-constructor.
     ~AnalogApp() override = default; ///< Destructor.
-    AnalogApp& operator=(AnalogApp const&) = delete; ///< Disabled assignment operator.
-    AnalogApp& operator=(AnalogApp&&) = delete; ///< Disabled move assignment operator.
+    AnalogApp& operator=(AnalogApp const &) = delete; ///< Disabled assignment operator.
+    AnalogApp& operator=(AnalogApp &&) = delete; ///< Disabled move assignment operator.
     bool notify(QObject *object, QEvent *event) override;
 };
 

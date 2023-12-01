@@ -4,7 +4,6 @@
 /// \brief Declaration of report structure.
 
 
-
 #ifndef ANALOG_REPORT_H
 #define ANALOG_REPORT_H
 

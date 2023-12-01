@@ -4,7 +4,6 @@
 /// \brief Implementation of report class.
 
 
-
 #include "Report.h"
 
 
@@ -12,9 +11,9 @@ namespace {
 QString const dateFormat("yyyy-MM-dd");
 QString const timeFormat("hh:mm:ss.zzz");
 QString const dateTimeFormat(dateFormat + " " + timeFormat);
-qint64 const secondsPerMinute = 60;
-qint64 const secondsPerHour = secondsPerMinute * 60;
-qint64 const secondsPerDay = secondsPerHour * 24;
+qint64 constexpr secondsPerMinute = 60;
+qint64 constexpr secondsPerHour = secondsPerMinute * 60;
+qint64 constexpr secondsPerDay = secondsPerHour * 24;
 }
 
 

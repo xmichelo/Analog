@@ -25,7 +25,7 @@ bool AnalogApp::notify(QObject *object, QEvent *event) {
     } catch (Exception const &e) {
         QMessageBox::critical(nullptr, "Error", e.message());
         qCritical() << e.message() << "\n";
-    } catch (std::exception const& e) {
+    } catch (std::exception const &e) {
         qCritical() << QString::fromLocal8Bit(e.what()) << "\n";
     } catch (...) {
         qCritical() << "A fatal error occurred.\n";

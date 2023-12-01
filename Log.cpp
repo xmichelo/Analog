@@ -3,10 +3,27 @@
 
 
 //****************************************************************************************************************************************************
+/// \param[in] resetModel Should the list model be reset?
+//****************************************************************************************************************************************************
+void Log::clear(bool resetModel) {
+    if (resetModel) {
+        this->beginResetModel();
+    }
+
+    entries_.clear();
+    errors_.clear();
+    format_ = LogEntry::Format::Unknown;
+
+    if (resetModel) {
+        this->endResetModel();
+    }
+}
+
+//****************************************************************************************************************************************************
 /// \param[in] filePath The path of the log file.
 ///***************************************************************************************************************************************************
 void Log::open(QString const &filePath) {
-    this->open(QStringList{filePath});
+    this->open(QStringList { filePath });
 }
 
 
@@ -16,15 +33,14 @@ void Log::open(QString const &filePath) {
 /// \param[in] filePaths The ordered list of files forming the log.
 //****************************************************************************************************************************************************
 void Log::open(QStringList const &filePaths) {
-    entries_.clear();
-    errors_.clear();
+    this->clear();
     this->beginResetModel();
     try {
         for (QString const &filePath: filePaths) {
             this->appendFileContent(filePath);
         }
     } catch (Exception const &e) {
-        errors_ = {e.message()};
+        errors_ = { e.message() };
     }
     this->endResetModel();
 }
@@ -34,7 +50,7 @@ void Log::open(QStringList const &filePaths) {
 /// \return the number of rows in the model.
 //****************************************************************************************************************************************************
 int Log::rowCount(QModelIndex const &) const {
-    return int(entries_.count());
+    return static_cast<int>(entries_.count());
 }
 
 
@@ -55,18 +71,18 @@ QVariant Log::data(QModelIndex const &index, int role) const {
     LogEntry const &entry = entries_[index.row()];
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
-            case 0:
-                return entry.dateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
-            case 1:
-                return LogEntry::levelToString(entry.level());
-            case 2:
-                return entry.package();
-            case 3:
-                return entry.message();
-            case 4:
-                return entry.fieldsString();
-            default:
-                return {};
+        case 0:
+            return entry.dateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
+        case 1:
+            return LogEntry::levelToString(entry.level());
+        case 2:
+            return entry.package();
+        case 3:
+            return entry.message();
+        case 4:
+            return entry.fieldsString();
+        default:
+            return {};
         }
     }
     if (role == Qt::ForegroundRole) {
@@ -89,18 +105,18 @@ QVariant Log::headerData(int section, Qt::Orientation orientation, int role) con
         return QAbstractItemModel::headerData(section, orientation, role);
     }
     switch (section) {
-        case 0:
-            return tr("Time");
-        case 1:
-            return tr("Level");
-        case 2:
-            return tr("Package");
-        case 3:
-            return tr("Message");
-        case 4:
-            return tr("Fields");
-        default:
-            return {};
+    case 0:
+        return tr("Time");
+    case 1:
+        return tr("Level");
+    case 2:
+        return tr("Package");
+    case 3:
+        return tr("Message");
+    case 4:
+        return tr("Fields");
+    default:
+        return {};
     }
 }
 
@@ -108,7 +124,7 @@ QVariant Log::headerData(int section, Qt::Orientation orientation, int role) con
 //****************************************************************************************************************************************************
 /// \return A constant reference to the log entries.
 //****************************************************************************************************************************************************
-QList<LogEntry> const &Log::entries() const {
+QList<LogEntry> const& Log::entries() const {
     return entries_;
 }
 
@@ -184,7 +200,7 @@ void Log::appendFileContent(QString const &filePath) {
         }
 
         QString const line = QString::fromUtf8(file.readLine());
-        LogEntry::Format format = Log::getLogFormat(line);
+        LogEntry::Format const format = Log::getLogFormat(line);
         if (format == LogEntry::Format::Unknown) {
             throw Exception(QString("The file '%1' is not of a known log format.").arg(QDir::toNativeSeparators(filePath)));
         }
@@ -211,5 +227,4 @@ void Log::appendFileContent(QString const &filePath) {
     } catch (Exception const &e) {
         errors_.append(e.message());
     }
-
 }

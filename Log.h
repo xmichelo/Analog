@@ -26,6 +26,7 @@ public: // member functions.
     Log &operator=(Log const &) = delete; ///< Disabled assignment operator.
     Log &operator=(Log &&) = delete; ///< Disabled move assignment operator.
 
+    void clear(bool resetModel = true); ///< Clear the content of the log.
     void open(QString const &filePath); ///< Open a log from file.
     void open(QStringList const &filePaths); ///< Open a log from an ordered list of files.
     int rowCount(QModelIndex const &parent) const override; ///< Get the number of rows in the model.

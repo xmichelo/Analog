@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
         return QApplication::exec();
     } catch (Exception const &e) {
         qCritical() << e.message() << "\n";
-    } catch (std::exception const& e) {
+    } catch (std::exception const &e) {
         qCritical() << e.what() << "\n";
     } catch (...) {
         qCritical() << "A fatal error occurred.\n";

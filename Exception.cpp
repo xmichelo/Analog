@@ -11,8 +11,7 @@
 /// \param[in] message The description of the exception.
 //****************************************************************************************************************************************************
 Exception::Exception(QString message)
-    : std::exception()
-    , message_(std::move(message)) {
+    : message_(std::move(message)) {
 }
 
 

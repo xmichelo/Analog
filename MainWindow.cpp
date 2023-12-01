@@ -47,14 +47,14 @@ bool MainWindow::validateFilesForOpening(QStringList &filePaths) {
             return false;
         }
 
-        std::sort(filePaths.begin(), filePaths.end(), [](QString const &leftFilePath, QString const &rightFilePath) -> bool {
+        std::ranges::sort(filePaths, [](QString const &leftFilePath, QString const &rightFilePath) -> bool {
             return QFileInfo(leftFilePath).fileName() < QFileInfo(rightFilePath).fileName();
         });
 
         QString sessionID;
         for (QString const &filePath: filePaths) {
             QString const filename = QFileInfo(filePath).fileName();
-            std::optional<FilenameInfo> info = FilenameInfo::parseFilename(filename);
+            std::optional<FilenameInfo> const info = FilenameInfo::parseFilename(filename);
             if ((!info) && (filePaths.count() > 1)) {
                 throw Exception(QString("%1 does not use the log file name convention and cannot be opened along other files.").arg(filename));
             }
@@ -178,7 +178,7 @@ void MainWindow::dropEvent(QDropEvent *event) {
         return;
     }
     QStringList paths;
-    std::transform(urls.begin(), urls.end(), std::back_inserter(paths),[](QUrl const& url) -> QString { return url.toLocalFile(); } );
+    std::ranges::transform(urls, std::back_inserter(paths),[](QUrl const& url) -> QString { return url.toLocalFile(); } );
     this->open(paths);
     event->acceptProposedAction();
 }
@@ -211,9 +211,9 @@ void MainWindow::onLogLoaded() {
 //****************************************************************************************************************************************************
 void MainWindow::onLayoutChanged() {
     qsizetype const entryCount = filter_.rowCount();
-    if (entryCount == 0) {
-        ui_.statusbar->clearMessage();
-    } else {
+    if (entryCount != 0) {
         ui_.statusbar->showMessage(entryCount > 1 ? QString("%1 entries").arg(entryCount) : "1 entry");
+    } else {
+        ui_.statusbar->clearMessage();
     }
 }

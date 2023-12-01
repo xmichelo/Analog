@@ -28,6 +28,4 @@ struct FilenameInfo {
 };
 
 
-
-
 #endif //ANALOG_FILE_NAME_INFO_H

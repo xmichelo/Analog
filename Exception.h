@@ -4,12 +4,8 @@
 /// \brief Declaration of exception class.
 
 
-
 #ifndef ANALOG_EXCEPTION_H
 #define ANALOG_EXCEPTION_H
-
-
-#include <stdexcept>
 
 
 //****************************************************************************************************************************************************
@@ -23,8 +19,8 @@ public: // member functions.
     Exception(Exception const &) = delete; ///< Disabled copy-constructor.
     Exception(Exception &&) = delete; ///< Disabled assignment copy-constructor.
     ~Exception() override = default; ///< Destructor.
-    Exception &operator=(Exception const &) = delete; ///< Disabled assignment operator.
-    Exception &operator=(Exception &&) = delete; ///< Disabled move assignment operator.
+    Exception& operator=(Exception const &) = delete; ///< Disabled assignment operator.
+    Exception& operator=(Exception &&) = delete; ///< Disabled move assignment operator.
     QString message() const; ///< Return the exception description as a QString.
     char const *what() const noexcept override; ///< Implementation of required what() function  from std::exception.
 

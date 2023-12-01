@@ -9,12 +9,9 @@
 
 
 namespace {
-
-
-QChar const doubleQuote('"'); ///< The double quote character.
-QChar const backslash('\\'); ///< The backslash character.
-QChar const equal('='); ///< The equal sign character.
-QChar const newLine('\n'); ///< The newline (or line feed) character.
+QChar constexpr doubleQuote('"'); ///< The double quote character.
+QChar constexpr backslash('\\'); ///< The backslash character.
+QChar constexpr equal('='); ///< The equal sign character.
 QString const keyTime = "time"; ///< The field name for time.
 QString const keyLevel = "level"; ///< The field name for level.
 QString const keyPackage = "pkg"; ///< The field name for package.
@@ -28,8 +25,6 @@ QString const errorColor("#ffadad"); ///< The color for the error log level.
 QString const fatalColor("#a0c4ff"); ///< The color for the fatal log level.
 QString const panicColor("#bdb2ff"); ///< The color for the panic log level.
 QString const yearStr = QDate::currentDate().toString("yyyy "); // Why is the year not in the log timestamps? We ignore year change for now...
-
-
 }
 
 
@@ -145,7 +140,7 @@ QString LogEntry::error() const {
 //****************************************************************************************************************************************************
 /// \return a constant reference to the entry fields.
 //****************************************************************************************************************************************************
-QMap<QString, QString> const &LogEntry::fields() const {
+QMap<QString, QString> const& LogEntry::fields() const {
     return fields_;
 }
 
@@ -167,14 +162,14 @@ QString LogEntry::fieldsString() const {
 //****************************************************************************************************************************************************
 void LogEntry::parse(QString const &str, Format format) {
     switch (format) {
-        case Format::BridgeGUI_3_4_0:
-            this->parseBridgeGUI34Entry(str);
-            break;
-        case Format::Bridge_3_4_0:
-            this->parseBridge34Entry(str);
-            break;
-        case Format::Unknown:
-            throw Exception("Failed parsing of log entry of unknown format.");
+    case Format::BridgeGUI_3_4_0:
+        this->parseBridgeGUI34Entry(str);
+        break;
+    case Format::Bridge_3_4_0:
+        this->parseBridge34Entry(str);
+        break;
+    case Format::Unknown:
+        throw Exception("Failed parsing of log entry of unknown format.");
     }
 }
 
@@ -212,7 +207,7 @@ void LogEntry::parseBridge34Entry(QString const &str) {
             QString const &expectedEqual = tokens[i + 1];
             if (expectedEqual != equal) {
                 throw Exception(QString("expected equal sign but encountered '%1'")
-                                    .arg(expectedEqual.size() < 10 ? expectedEqual : expectedEqual.left(10) + "..."));
+                    .arg(expectedEqual.size() < 10 ? expectedEqual : expectedEqual.left(10) + "..."));
             }
             QString const &key = tokens[i];
             QString const &value = tokens[i + 2];
@@ -302,23 +297,23 @@ LogEntry::Level LogEntry::levelFromBridgeGUI34String(QString const &str) {
 //****************************************************************************************************************************************************
 QString LogEntry::levelToString(LogEntry::Level level) {
     switch (level) {
-        case Level::Trace:
-            return "trace";
-        case Level::Debug:
-            return "debug";
-        case Level::Info:
-            return "info";
-        case Level::Warn:
-            return "warning";
-        case Level::Error:
-            return "error";
-        case Level::Fatal:
-            return "fatal";
-        case Level::Panic:
-            return "panic";
-        default:
-            qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
-            return "unknown";
+    case Level::Trace:
+        return "trace";
+    case Level::Debug:
+        return "debug";
+    case Level::Info:
+        return "info";
+    case Level::Warn:
+        return "warning";
+    case Level::Error:
+        return "error";
+    case Level::Fatal:
+        return "fatal";
+    case Level::Panic:
+        return "panic";
+    default:
+        qCritical() << QString("Unknown log level '%1'").arg(static_cast<qint64>(level));
+        return "unknown";
     }
 }
 
@@ -329,23 +324,23 @@ QString LogEntry::levelToString(LogEntry::Level level) {
 //****************************************************************************************************************************************************
 QColor LogEntry::levelColor(LogEntry::Level level) {
     switch (level) {
-        case Level::Trace:
-            return traceColor;
-        case Level::Debug:
-            return debugColor;
-        case Level::Info:
-            return infoColor;
-        case Level::Warn:
-            return warnColor;
-        case Level::Error:
-            return errorColor;
-        case Level::Fatal:
-            return fatalColor;
-        case Level::Panic:
-            return panicColor;
-        default:
-            qCritical() << QString("Unknown log level '%1'").arg(qint64(level));
-            return traceColor;
+    case Level::Trace:
+        return traceColor;
+    case Level::Debug:
+        return debugColor;
+    case Level::Info:
+        return infoColor;
+    case Level::Warn:
+        return warnColor;
+    case Level::Error:
+        return errorColor;
+    case Level::Fatal:
+        return fatalColor;
+    case Level::Panic:
+        return panicColor;
+    default:
+        qCritical() << QString("Unknown log level '%1'").arg(static_cast<qint64>(level));
+        return traceColor;
     }
 }
 

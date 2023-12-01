@@ -12,7 +12,7 @@
 //****************************************************************************************************************************************************
 FilterModel::FilterModel(Log &log)
     : QSortFilterProxyModel(), log_(log) {
-    this->setSourceModel(&log_);
+    this->QSortFilterProxyModel::setSourceModel(&log_);
 }
 
 
@@ -40,7 +40,7 @@ void FilterModel::setLevel(LogEntry::Level level) {
 /// \return true iff the row should be displayed.
 //****************************************************************************************************************************************************
 bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
-    LogEntry const& entry = log_.entries_[sourceRow];
+    LogEntry const &entry = log_.entries_[sourceRow];
     if ((useStrictLevelFilter_) && (static_cast<int>(entry.level()) != static_cast<int>(level_))) {
         return false;
     }
@@ -48,7 +48,7 @@ bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
         return false;
     }
 
-    if ((!packageFilter_.isEmpty()) && !entry.package().contains(packageFilter_, Qt::CaseInsensitive) ){
+    if ((!packageFilter_.isEmpty()) && !entry.package().contains(packageFilter_, Qt::CaseInsensitive)) {
         return false;
     }
 
@@ -59,7 +59,7 @@ bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
     if (entry.message().contains(textFilter_, Qt::CaseInsensitive)) {
         return true;
     }
-    QMap<QString, QString> const& fields = entry.fields();
+    QMap<QString, QString> const &fields = entry.fields();
     for (QMap<QString, QString>::const_iterator it = fields.begin(); it != fields.end(); ++it) {
         if (it.key().contains(textFilter_, Qt::CaseInsensitive) || it.value().contains(textFilter_, Qt::CaseInsensitive)) {
             return true;
