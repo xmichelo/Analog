@@ -10,6 +10,7 @@
 
 #include "Log.h"
 #include "FilterModel.h"
+#include "SessionList.h"
 #include "ui_MainWindow.h"
 
 
@@ -28,8 +29,6 @@ public: // member functions.
     MainWindow& operator=(MainWindow &&) = delete; ///< Disabled move assignment operator.
 
 private: // members functions
-    bool validateFilesForOpening(QStringList &filePaths); ///< Validate the files paths before opening.
-
     /// \name Drag and drop functions
     ///\{
     void dragEnterEvent(QDragEnterEvent *event) override; ///< Drag enter event handler
@@ -55,6 +54,7 @@ public slots:
 
 private: // data members.
     Ui::MainWindow ui_ {}; ///< The GUI for the window.
+    SessionList sessionList_; ///< The session list.
     Log log_; ///< The log
     FilterModel filter_; ///< The filter model for the log.
 };

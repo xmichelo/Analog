@@ -39,6 +39,8 @@ add_executable(Analog main.cpp
     ReportDialog.ui
     Session.cpp
     Session.h
+    SessionList.cpp
+    SessionList.h
 )
 
 target_precompile_headers(Analog PRIVATE PCH.h)

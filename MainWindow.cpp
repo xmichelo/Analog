@@ -18,6 +18,8 @@ MainWindow::MainWindow()
     , log_()
     , filter_(log_) {
     ui_.setupUi(this);
+
+    ui_.sessionTree->setModel(&sessionList_);
     ui_.tableView->setModel(&filter_);
 
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
@@ -33,44 +35,6 @@ MainWindow::MainWindow()
     ui_.editPackage->setText(filter_.packageFilter());
     ui_.comboLevel->setCurrentIndex(static_cast<int>(filter_.level()));
     ui_.checkAndAbove->setChecked(!filter_.useStrictLevelFilter());
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in, out] filePaths The list of file paths that are about to be opened. On exit, if the function returned true, the files
-/// are sorted alphabetically.
-/// \return true iff the file can be opened.
-//****************************************************************************************************************************************************
-bool MainWindow::validateFilesForOpening(QStringList &filePaths) {
-    try {
-        if (filePaths.isEmpty()) {
-            return false;
-        }
-
-        std::ranges::sort(filePaths, [](QString const &leftFilePath, QString const &rightFilePath) -> bool {
-            return QFileInfo(leftFilePath).fileName() < QFileInfo(rightFilePath).fileName();
-        });
-
-        QString sessionID;
-        for (QString const &filePath: filePaths) {
-            QString const filename = QFileInfo(filePath).fileName();
-            std::optional<FilenameInfo> const info = FilenameInfo::parseFilename(filename);
-            if ((!info) && (filePaths.count() > 1)) {
-                throw Exception(QString("%1 does not use the log file name convention and cannot be opened along other files.").arg(filename));
-            }
-            if (sessionID.isEmpty()) {
-                sessionID = info->sessionID;
-            }
-            if (sessionID != info->sessionID) {
-                throw Exception(QString("Cannot open files from different sessions."));
-            }
-        }
-
-        return true;
-    } catch (Exception const &e) {
-        QMessageBox::critical(this, "Error", e.message());
-        return false;
-    }
 }
 
 
@@ -123,19 +87,21 @@ void MainWindow::onPackageFilterChanged(QString const &value) {
 //****************************************************************************************************************************************************
 void MainWindow::open(QStringList const &filePaths) {
     try {
-        QStringList paths = filePaths;
-        if (!validateFilesForOpening(paths)) {
-            return;
-        }
-        log_.open(paths);
-        if (log_.hasErrors()) {
-            QStringList errors = log_.errors();
-            if (errors.size() > 10) {
-                errors = errors.first(10);
-                errors.append("...");
-            }
-            QMessageBox::critical(this, "Error", errors.join("\n"));
-        }
+        sessionList_.open(filePaths);
+        // QStringList paths = filePaths;
+        // if (!validateFilesForOpening(paths)) {
+        //     return;
+        // }
+        // log_.open(paths);
+        // if (log_.hasErrors()) {
+        //     QStringList errors = log_.errors();
+        //     if (errors.size() > 10) {
+        //         errors = errors.first(10);
+        //         errors.append("...");
+        //     }
+        //     QMessageBox::critical(this, "Error", errors.join("\n"));
+        // }
+        ui_.sessionTree->expandAll();
     } catch (Exception const &e) {
         QMessageBox::critical(this, tr("Error"), e.message());
     }
