@@ -1,13 +1,14 @@
 /// \file
 /// \author Xavier Michelon
 ///
-/// \brief Declaration of log class
+/// \brief Declaration of log class.
 
 
 #ifndef ANALOG_LOG_H
 #define ANALOG_LOG_H
 
 
+#include "FilenameInfo.h"
 #include "LogEntry.h"
 #include "Report.h"
 
@@ -19,7 +20,8 @@ class Log : public QAbstractTableModel {
 Q_OBJECT
 
 public: // member functions.
-    Log() = default; ///< Default constructor.
+    explicit Log(QStringList const& filePaths = {}); ///< Return a log read from a set of files.
+    explicit Log(QString const &filePath); ///< Return a log read from a single file.
     Log(Log const &) = delete; ///< Disabled copy-constructor.
     Log(Log &&) = delete; ///< Disabled assignment copy-constructor.
     ~Log() override = default; ///< Destructor.
@@ -51,6 +53,9 @@ public: // data members
     QStringList errors_; ///< The errors encountered while passing the log.
     QList<LogEntry> entries_; ///< The log entries.
 };
+
+
+typedef std::shared_ptr<Log> SPLog; ///< Type definition for shared pointer to log.
 
 
 #endif //ANALOG_LOG_H

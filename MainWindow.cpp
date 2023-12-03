@@ -5,23 +5,20 @@
 
 
 #include "MainWindow.h"
-#include "FilenameInfo.h"
 #include "ReportDialog.h"
 #include "Exception.h"
+#include "cmake-build-release/CMakeFiles/Analog.dir/cmake_pch_arm64.hxx"
 
 
 //****************************************************************************************************************************************************
 //
 //****************************************************************************************************************************************************
-MainWindow::MainWindow()
-    : QMainWindow()
-    , log_()
-    , filter_(log_) {
+MainWindow::MainWindow() {
     ui_.setupUi(this);
 
     ui_.sessionTree->setModel(&sessionList_);
     ui_.tableView->setModel(&filter_);
-
+    connect(ui_.sessionTree, &QTreeView::activated, this, &MainWindow::onSessionSelected);
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
     connect(&filter_, &Log::modelReset, this, &MainWindow::onLogLoaded);
@@ -43,10 +40,9 @@ MainWindow::MainWindow()
 //****************************************************************************************************************************************************
 void MainWindow::onActionOpenFile() {
     QStringList const filePaths = QFileDialog::getOpenFileNames(this, tr("Select log file"), QString(), tr("Log files (*.log);;All files (*.*)"));
-    if (filePaths.isEmpty()) {
-        return;
+    if (!filePaths.isEmpty()) {
+        this->open(filePaths);
     }
-    this->open(filePaths);
 }
 
 
@@ -144,17 +140,21 @@ void MainWindow::dropEvent(QDropEvent *event) {
         return;
     }
     QStringList paths;
-    std::ranges::transform(urls, std::back_inserter(paths),[](QUrl const& url) -> QString { return url.toLocalFile(); } );
+    std::ranges::transform(urls, std::back_inserter(paths), [](QUrl const &url) -> QString { return url.toLocalFile(); });
     this->open(paths);
     event->acceptProposedAction();
 }
+
 
 //****************************************************************************************************************************************************
 //
 //****************************************************************************************************************************************************
 void MainWindow::onActionShowReport() {
     try {
-        ReportDialog dlg(this, log_.generateReport());
+        if (!log_) {
+            return;
+        }
+        ReportDialog dlg(this, log_->generateReport());
         dlg.exec();
     } catch (Exception const &e) {
         QMessageBox::critical(this, "Error", e.message());
@@ -165,7 +165,7 @@ void MainWindow::onActionShowReport() {
 //****************************************************************************************************************************************************
 //
 //****************************************************************************************************************************************************
-void MainWindow::onLogLoaded() {
+void MainWindow::onLogLoaded() const {
     ui_.tableView->resizeColumnsToContents();
     ui_.tableView->setColumnWidth(3, qMin(ui_.tableView->columnWidth(3), 600));
     this->onLayoutChanged();
@@ -175,11 +175,19 @@ void MainWindow::onLogLoaded() {
 //****************************************************************************************************************************************************
 /// This slot is called when the filtering of the log change.
 //****************************************************************************************************************************************************
-void MainWindow::onLayoutChanged() {
+void MainWindow::onLayoutChanged() const {
     qsizetype const entryCount = filter_.rowCount();
     if (entryCount != 0) {
         ui_.statusbar->showMessage(entryCount > 1 ? QString("%1 entries").arg(entryCount) : "1 entry");
     } else {
         ui_.statusbar->clearMessage();
     }
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] index The index of the selected session.
+//****************************************************************************************************************************************************
+void MainWindow::onSessionSelected(QModelIndex const &index) {
+    filter_.setLog(index.isValid() ? sessionList_.log(index) : SPLog {});
 }

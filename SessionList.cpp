@@ -60,6 +60,44 @@ void SessionList::open(QStringList const &filePaths) {
     this->endResetModel();
 }
 
+
+//****************************************************************************************************************************************************
+/// \param[in] index The index.
+/// \return The log at the given index.
+//****************************************************************************************************************************************************
+SPLog SessionList::log(QModelIndex const &index) const {
+    Session const &session = this->session(index);
+    int const i = index.parent().isValid() ? index.row() : 0;
+    bool const hasBridgeLog = session.hasBridgeLog();
+    bool const hasGUILog = session.hasGUILog();
+
+    switch (i) {
+    case 0:
+        if (hasBridgeLog) {
+            return session.bridgeLog();
+        }
+        return hasGUILog ? session.guiLog() : session.launcherLog();
+    case 1:
+        if (hasBridgeLog) {
+            return hasGUILog ? session.guiLog() : session.launcherLog();
+        }
+        return session.launcherLog();
+    case 2:
+        return session.launcherLog();
+    default:
+        return SPLog {};
+    }
+}
+
+//****************************************************************************************************************************************************
+/// \return an optional reference to the selected session.
+//****************************************************************************************************************************************************
+Session const& SessionList::session(QModelIndex const &index) const {
+    QModelIndex const parent = index.parent();
+    return sessions_[parent.isValid() ? parent.row() : index.row()];
+}
+
+
 //****************************************************************************************************************************************************
 /// \param[in] row The row.
 /// \param[in] column The column.

@@ -8,6 +8,8 @@
 #define ANALOG_SESSION_H
 
 
+#include "Log.h"
+
 //****************************************************************************************************************************************************
 /// \brief Session class
 //****************************************************************************************************************************************************
@@ -24,6 +26,12 @@ public: // member functions.
     bool hasBridgeLog() const; ///< Checks if the session has a bridge log file.
     bool hasGUILog() const;  ///< Checks if the session has a bridge-gui log file.
     bool hasLauncherLog() const; ///< Checks if the session has a launcher log file.
+    SPLog bridgeLog() const; ///< Returns the bridge log.
+    SPLog guiLog() const; ///< Returns the bridge-gui log.
+    SPLog launcherLog() const; ///< Returns the launcher log.
+    QStringList bridgeFilePaths() const; ///< Return the full paths of the bridge log files
+    QStringList guiFilePaths() const; ///< Return the full paths of the bridge-gui log files
+    QStringList launcherFilePaths() const; ///< Return the full paths of the launcher log files
 
 private: // data members.
     QDir dir_; ///< The folder containing the session.

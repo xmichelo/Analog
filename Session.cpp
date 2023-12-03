@@ -100,3 +100,68 @@ bool Session::hasGUILog() const {
 bool Session::hasLauncherLog() const {
     return !launcherFiles_.isEmpty();
 }
+
+
+//****************************************************************************************************************************************************
+/// \return The bridge log.
+/// \return A null pointer if the session has no bridge log.
+//****************************************************************************************************************************************************
+SPLog Session::bridgeLog() const {
+    return hasBridgeLog() ? std::make_shared<Log>(this->bridgeFilePaths()) : SPLog {};
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The bridge-gui log.
+/// \return A null pointer if the session has no brige-gui log.
+//****************************************************************************************************************************************************
+SPLog Session::guiLog() const {
+    return hasGUILog() ? std::make_shared<Log>(this->guiFilePaths()) : SPLog {};
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The launcher log.
+/// \return A null pointer if the session has no launcher log.
+//****************************************************************************************************************************************************
+SPLog Session::launcherLog() const {
+    return hasLauncherLog() ? std::make_shared<Log>(this->launcherFilePaths()) : SPLog {};
+}
+
+
+//****************************************************************************************************************************************************
+/// \brief Get the absolute paths of files in a given folder.
+///
+/// \param[in] dir The folder.
+/// \param[in] filenames The list of filenames.
+/// \return The list of absolute paths of the filenames.
+//****************************************************************************************************************************************************
+QStringList fullPaths(QDir const& dir, QStringList const& filenames) {
+    QStringList result;
+    std::ranges::transform(filenames, std::back_inserter(result), [&dir](QString const& filename) -> QString {
+        return dir.absoluteFilePath(filename);
+    });
+    return result;
+}
+
+
+//****************************************************************************************************************************************************
+/// \return The absolute paths of the bridge log files.
+//****************************************************************************************************************************************************
+QStringList Session::bridgeFilePaths() const {
+    return fullPaths(dir_, bridgeFiles_);
+}
+
+//****************************************************************************************************************************************************
+/// \return The absolute paths of the bridge-gui log files.
+//****************************************************************************************************************************************************
+QStringList Session::guiFilePaths() const {
+    return fullPaths(dir_, guiFiles_);
+}
+
+//****************************************************************************************************************************************************
+/// \return The absolute paths of the launcher log files.
+//****************************************************************************************************************************************************
+QStringList Session::launcherFilePaths() const {
+    return fullPaths(dir_, launcherFiles_);
+}

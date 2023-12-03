@@ -10,9 +10,18 @@
 //****************************************************************************************************************************************************
 /// \param[in] log The log.
 //****************************************************************************************************************************************************
-FilterModel::FilterModel(Log &log)
-    : QSortFilterProxyModel(), log_(log) {
-    this->QSortFilterProxyModel::setSourceModel(&log_);
+FilterModel::FilterModel(SPLog const &log)
+    : log_(log) {
+    this->QSortFilterProxyModel::setSourceModel(log_.get());
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void FilterModel::setLog(SPLog const &log) {
+    log_ = log;
+    this->setSourceModel(log.get());
 }
 
 
@@ -40,7 +49,10 @@ void FilterModel::setLevel(LogEntry::Level level) {
 /// \return true iff the row should be displayed.
 //****************************************************************************************************************************************************
 bool FilterModel::filterAcceptsRow(int sourceRow, QModelIndex const &) const {
-    LogEntry const &entry = log_.entries_[sourceRow];
+    if (!log_) {
+        return false;
+    }
+    LogEntry const &entry = log_->entries_[sourceRow];
     if ((useStrictLevelFilter_) && (static_cast<int>(entry.level()) != static_cast<int>(level_))) {
         return false;
     }
