@@ -35,14 +35,17 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QTreeView" name="sessionTree">
-       <property name="uniformRowHeights">
-        <bool>true</bool>
+      <widget class="QListView" name="sessionList">
+       <property name="styleSheet">
+        <string notr="true">QListView::item {
+   padding: 8px;
+   margin-left: 8px;
+}</string>
        </property>
-       <property name="animated">
-        <bool>true</bool>
+       <property name="spacing">
+        <number>2</number>
        </property>
-       <property name="headerHidden">
+       <property name="uniformItemSizes">
         <bool>true</bool>
        </property>
       </widget>

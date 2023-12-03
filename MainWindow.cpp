@@ -7,7 +7,6 @@
 #include "MainWindow.h"
 #include "ReportDialog.h"
 #include "Exception.h"
-#include "cmake-build-release/CMakeFiles/Analog.dir/cmake_pch_arm64.hxx"
 
 
 //****************************************************************************************************************************************************
@@ -16,10 +15,10 @@
 MainWindow::MainWindow() {
     ui_.setupUi(this);
 
-    ui_.sessionTree->setModel(&sessionList_);
-    ui_.sessionTree->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-    ui_.sessionTree->setMinimumWidth(250);
-    connect(ui_.sessionTree, &QTreeView::activated, this, &MainWindow::onSessionSelected);
+    ui_.sessionList->setModel(&sessionList_);
+    //ui_.sessionList->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    ui_.sessionList->setMinimumWidth(250);
+    connect(ui_.sessionList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onSelectedSessionChanged);
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
     connect(ui_.sessionWidget, &SessionWidget::logStatusMessageChanged, this, &MainWindow::onLogStatusMessageChanged);
@@ -43,20 +42,11 @@ void MainWindow::onActionOpenFile() {
 void MainWindow::open(QStringList const &filePaths) {
     try {
         sessionList_.open(filePaths);
-        // QStringList paths = filePaths;
-        // if (!validateFilesForOpening(paths)) {
-        //     return;
-        // }
-        // log_.open(paths);
-        // if (log_.hasErrors()) {
-        //     QStringList errors = log_.errors();
-        //     if (errors.size() > 10) {
-        //         errors = errors.first(10);
-        //         errors.append("...");
-        //     }
-        //     QMessageBox::critical(this, "Error", errors.join("\n"));
-        // }
-        ui_.sessionTree->expandAll();
+        if (sessionList_.count() == 0) {
+            ui_.sessionWidget->setSession({});
+        } else {
+            ui_.sessionList->setCurrentIndex(ui_.sessionList->model()->index(0, 0, QModelIndex()));
+        }
     } catch (Exception const &e) {
         QMessageBox::critical(this, tr("Error"), e.message());
     }
@@ -122,10 +112,11 @@ void MainWindow::onActionShowReport() {
 
 
 //****************************************************************************************************************************************************
-/// \param[in] index The index of the selected session.
+/// \param[in] selected The new selection.
 //****************************************************************************************************************************************************
-void MainWindow::onSessionSelected(QModelIndex const &index) const {
-    ui_.sessionWidget->setSession(index.isValid() ? sessionList_[index.row()] : std::optional<Session> {});
+void MainWindow::onSelectedSessionChanged(const QItemSelection &selected, const QItemSelection &) const {
+    QList<QModelIndex> const indexes = selected.indexes();
+    ui_.sessionWidget->setSession(indexes.isEmpty() ? std::optional<Session> {} : sessionList_[indexes.first().row()]);
 }
 
 

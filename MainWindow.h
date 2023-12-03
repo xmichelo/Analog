@@ -44,7 +44,7 @@ public slots:
     ///\}
 
     void open(QStringList const &filePaths); ///< Slot for opening a given file.
-    void onSessionSelected(QModelIndex const &index) const; ///< Slot for the selection of a session.
+    void onSelectedSessionChanged(const QItemSelection &selected, const QItemSelection &deselected) const; ///< Slot for the selection of a session.
     void onLogStatusMessageChanged(QString const &message) const; ///< Slot for the change of the log status message.
 
 private: // data members.

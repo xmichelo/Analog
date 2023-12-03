@@ -40,6 +40,10 @@ void SessionWidget::setSession(std::optional<Session> const &session) {
 
     this->updateGUI();
 
+    if (!session_) {
+        filter_.setLog({});
+        return;
+    }
     bool const hasBridgeLog = session->hasBridgeLog();
     bool const hasGUILog = session->hasGUILog();
     bool const hasLauncherLog = session->hasLauncherLog();

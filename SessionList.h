@@ -15,7 +15,7 @@
 //****************************************************************************************************************************************************
 /// \brief Session list class.
 //****************************************************************************************************************************************************
-class SessionList : public QAbstractItemModel {
+class SessionList : public QAbstractListModel {
     Q_OBJECT
 
 public: // member functions.
@@ -29,13 +29,11 @@ public: // member functions.
     Session const& operator[](int index) const;
     void open(QStringList const &filePaths); ///< Open a session list.
     Session const & session(QModelIndex const &index) const; ///< Get an optional reference to the session at the given index.
+    qsizetype count() const; ///< return the number of sessions.
 
     /// \name Tree view model functions.
     ///\{
-    QModelIndex index(int row, int column, QModelIndex const &parent) const override;
-    QModelIndex parent(QModelIndex const &child) const override;
     int rowCount(QModelIndex const &parent) const override;
-    int columnCount(QModelIndex const &parent) const override;
     QVariant data(QModelIndex const &index, int role) const override;
     ///\}
 
