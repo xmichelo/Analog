@@ -41,9 +41,15 @@ add_executable(Analog main.cpp
     Session.h
     SessionList.cpp
     SessionList.h
+    SessionWidget.cpp
+    SessionWidget.h
+    SessionWidget.ui
 )
 
+
 target_precompile_headers(Analog PRIVATE PCH.h)
+target_include_directories(Analog PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 
 target_link_libraries(Analog
     Qt::Core

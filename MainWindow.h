@@ -44,20 +44,14 @@ public slots:
     void onActionShowReport(); ///< Slot for the 'Show Report' action.
     ///\}
 
-    void onTextFilterChanged(QString const &value); ///< Slot for the change of the text filter edit.
-    void onPackageFilterChanged(QString const &value); ///< Slot for the change of the packet filter edit.
-    void onLevelComboChanged(int index); ///< Slot the the change of the level combo.
-    void onLevelStrictnessChanged(bool nonStrict); ///< Slot for the change of the level strictness check.
     void open(QStringList const &filePaths); ///< Slot for opening a given file.
-    void onLogLoaded() const; ///< Slot for the loading of a log.
-    void onLayoutChanged() const; ///< Slot for the changing of the filtering.
-    void onSessionSelected(QModelIndex const &index); ///< Slot for the selection of a session.
+    void onSessionSelected(QModelIndex const &index) const; ///< Slot for the selection of a session.
+    void onLogStatusMessageChanged(QString const &message) const; ///< Slot for the change of the log status message.
 
 private: // data members.
     Ui::MainWindow ui_ {}; ///< The GUI for the window.
     SessionList sessionList_; ///< The session list.
     SPLog log_; ///< The log
-    FilterModel filter_; ///< The filter model for the log.
 };
 
 

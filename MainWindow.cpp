@@ -17,21 +17,10 @@ MainWindow::MainWindow() {
     ui_.setupUi(this);
 
     ui_.sessionTree->setModel(&sessionList_);
-    ui_.tableView->setModel(&filter_);
     connect(ui_.sessionTree, &QTreeView::activated, this, &MainWindow::onSessionSelected);
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
-    connect(&filter_, &Log::modelReset, this, &MainWindow::onLogLoaded);
-    connect(&filter_, &Log::layoutChanged, this, &MainWindow::onLayoutChanged);
-    connect(ui_.editFilter, &QLineEdit::textChanged, this, &MainWindow::onTextFilterChanged);
-    connect(ui_.editPackage, &QLineEdit::textChanged, this, &MainWindow::onPackageFilterChanged);
-    connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &MainWindow::onLevelComboChanged);
-    connect(ui_.checkAndAbove, &QCheckBox::stateChanged, this, &MainWindow::onLevelStrictnessChanged);
-
-    ui_.editFilter->setText(filter_.textFilter());
-    ui_.editPackage->setText(filter_.packageFilter());
-    ui_.comboLevel->setCurrentIndex(static_cast<int>(filter_.level()));
-    ui_.checkAndAbove->setChecked(!filter_.useStrictLevelFilter());
+    connect(ui_.sessionWidget, &SessionWidget::logStatusMessageChanged, this, &MainWindow::onLogStatusMessageChanged);
 }
 
 
@@ -43,38 +32,6 @@ void MainWindow::onActionOpenFile() {
     if (!filePaths.isEmpty()) {
         this->open(filePaths);
     }
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in] value The text filter.
-//****************************************************************************************************************************************************
-void MainWindow::onTextFilterChanged(QString const &value) {
-    filter_.setTextFilter(value);
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in] index The index of the current item.
-//****************************************************************************************************************************************************
-void MainWindow::onLevelComboChanged(int index) {
-    filter_.setLevel(static_cast<LogEntry::Level>(index));
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in] nonStrict The strictness of the level filter.
-//****************************************************************************************************************************************************
-void MainWindow::onLevelStrictnessChanged(bool nonStrict) {
-    filter_.setUseStrictLevelFilter(!nonStrict);
-}
-
-
-//****************************************************************************************************************************************************
-/// \param[in] value The new value for the package filter.
-//****************************************************************************************************************************************************
-void MainWindow::onPackageFilterChanged(QString const &value) {
-    filter_.setPackageFilter(value);
 }
 
 
@@ -163,31 +120,20 @@ void MainWindow::onActionShowReport() {
 
 
 //****************************************************************************************************************************************************
-//
-//****************************************************************************************************************************************************
-void MainWindow::onLogLoaded() const {
-    ui_.tableView->resizeColumnsToContents();
-    ui_.tableView->setColumnWidth(3, qMin(ui_.tableView->columnWidth(3), 600));
-    this->onLayoutChanged();
-}
-
-
-//****************************************************************************************************************************************************
-/// This slot is called when the filtering of the log change.
-//****************************************************************************************************************************************************
-void MainWindow::onLayoutChanged() const {
-    qsizetype const entryCount = filter_.rowCount();
-    if (entryCount != 0) {
-        ui_.statusbar->showMessage(entryCount > 1 ? QString("%1 entries").arg(entryCount) : "1 entry");
-    } else {
-        ui_.statusbar->clearMessage();
-    }
-}
-
-
-//****************************************************************************************************************************************************
 /// \param[in] index The index of the selected session.
 //****************************************************************************************************************************************************
-void MainWindow::onSessionSelected(QModelIndex const &index) {
-    filter_.setLog(index.isValid() ? sessionList_.log(index) : SPLog {});
+void MainWindow::onSessionSelected(QModelIndex const &index) const {
+    ui_.sessionWidget->setLog(index.isValid() ? sessionList_.log(index) : SPLog {});
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] message The message.
+//****************************************************************************************************************************************************
+void MainWindow::onLogStatusMessageChanged(QString const &message) const {
+    if (message.isEmpty()) {
+        ui_.statusbar->clearMessage();
+    } else {
+        ui_.statusbar->showMessage(message);
+    }
 }
