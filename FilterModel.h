@@ -34,6 +34,9 @@ public: // member functions.
     QString textFilter(); ///< Get the text filter.
     void setTextFilter(QString const &filter); ///< Set The text filter.
 
+signals:
+    void logErrorsOccurred(QStringList const& list); ///< Signal emitted when errors occured while opening a log.
+
 private: // member functions.
     bool filterAcceptsRow(int sourceRow, QModelIndex const &) const override; ///< check if a row show be accepted.
 

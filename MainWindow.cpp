@@ -22,6 +22,7 @@ MainWindow::MainWindow() {
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
     connect(ui_.sessionWidget, &SessionWidget::logStatusMessageChanged, this, &MainWindow::onLogStatusMessageChanged);
+    connect(ui_.sessionWidget, &SessionWidget::logErrorsOccurred, this, &MainWindow::onLogErrors);
 }
 
 
@@ -129,4 +130,17 @@ void MainWindow::onLogStatusMessageChanged(QString const &message) const {
     } else {
         ui_.statusbar->showMessage(message);
     }
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] errors The list of errors.
+//****************************************************************************************************************************************************
+void MainWindow::onLogErrors(QStringList const &errors) {
+    QStringList errs = errors;
+    if (errs.count() > 5) {
+        errs.resize(5);
+        errs.append("...");
+    }
+    QMessageBox::critical(this, "Error", errs.join("\n"));
 }

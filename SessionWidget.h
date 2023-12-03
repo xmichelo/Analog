@@ -40,6 +40,9 @@ public slots:
     void onShowGUILog(); ///< Slot for showing the bridge-gui log.
     void onShowLauncherLog(); ///< Slot for showing the launcher log.
 
+signals:
+    void logErrorsOccurred(QStringList const& list); ///< Signal emitted when errors occured while opening a log.
+
 private:
     void updateGUI(); ///< Update the GUI state
 

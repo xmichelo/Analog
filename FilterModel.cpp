@@ -20,8 +20,18 @@ FilterModel::FilterModel(SPLog const &log)
 //
 //****************************************************************************************************************************************************
 void FilterModel::setLog(SPLog const &log) {
+    if (log == log_) {
+        return;
+    }
     log_ = log;
     this->setSourceModel(log.get());
+
+    if (log) {
+        QStringList const errors = log->errors();
+        if (!errors.isEmpty()) {
+            emit logErrorsOccurred(errors);
+        }
+    }
 }
 
 

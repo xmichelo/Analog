@@ -22,8 +22,9 @@ SessionWidget::SessionWidget(QWidget *parent)
     connect(ui_.buttonBridge, &QPushButton::clicked, this, &SessionWidget::onShowBridgeLog);
     connect(ui_.buttonGUI, &QPushButton::clicked, this, &SessionWidget::onShowGUILog);
     connect(ui_.buttonLauncher, &QPushButton::clicked, this, &SessionWidget::onShowLauncherLog);
-    connect(&filter_, &Log::modelReset, this, &SessionWidget::onLogLoaded);
-    connect(&filter_, &Log::layoutChanged, this, &SessionWidget::onLayoutChanged);
+    connect(&filter_, &FilterModel::modelReset, this, &SessionWidget::onLogLoaded);
+    connect(&filter_, &FilterModel::layoutChanged, this, &SessionWidget::onLayoutChanged);
+    connect(&filter_, &FilterModel::logErrorsOccurred, this, &SessionWidget::logErrorsOccurred);
 
     ui_.editFilter->setText(filter_.textFilter());
     ui_.editPackage->setText(filter_.packageFilter());

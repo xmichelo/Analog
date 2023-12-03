@@ -198,10 +198,17 @@ void LogEntry::parseBridgeGUI34Entry(QString const &str) {
 //****************************************************************************************************************************************************
 void LogEntry::parseBridge34Entry(QString const &str) {
     try {
-        QStringList const tokens = tokenizeBridge34Entry(str);
-        qsizetype const count = tokens.size();
+        QStringList tokens = tokenizeBridge34Entry(str);
+        qsizetype count = tokens.size();
         if (count % 3 != 0) {
-            throw Exception("Invalid number of elements after tokenization.");
+            // fix for issue where a logrus field key contains a space.
+            if ((count % 3 == 1) && (tokens[9] == "message") && (tokens[10] == "updated")) {
+                tokens[9] = "message updated";
+                tokens.removeAt(10);
+                --count;
+            } else {
+                throw Exception("Invalid number of elements after tokenization.");
+            }
         }
         for (int i = 0; i < count; i += 3) {
             QString const &expectedEqual = tokens[i + 1];

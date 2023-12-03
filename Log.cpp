@@ -63,6 +63,10 @@ void Log::open(QStringList const &filePaths) {
         errors_ = { e.message() };
     }
     this->endResetModel();
+
+    if (!errors_.isEmpty()) {
+        emit logErrorsOccurred(errors_);
+    }
 }
 
 

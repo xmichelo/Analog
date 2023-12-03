@@ -42,6 +42,9 @@ public: // member functions.
     bool hasErrors() const; ///< Returns true iff errors where encountered while parsing the log.
     QStringList errors() const; ///< Returns the error encountered while parsing the log.
 
+signals:
+    void logErrorsOccurred(QStringList const& list); ///< Signal emitted when errors occured while opening a log.
+
 private: // static member functions.
     static LogEntry::Format getLogFormat(QString const &file); ///< Determines the log file format.
 
