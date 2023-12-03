@@ -9,7 +9,6 @@
 
 
 #include "Log.h"
-#include "FilterModel.h"
 #include "SessionList.h"
 #include "ui_MainWindow.h"
 

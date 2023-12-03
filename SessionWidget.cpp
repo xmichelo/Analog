@@ -19,6 +19,9 @@ SessionWidget::SessionWidget(QWidget *parent)
     connect(ui_.editPackage, &QLineEdit::textChanged, this, &SessionWidget::onPackageFilterChanged);
     connect(ui_.comboLevel, &QComboBox::currentIndexChanged, this, &SessionWidget::onLevelComboChanged);
     connect(ui_.checkAndAbove, &QCheckBox::stateChanged, this, &SessionWidget::onLevelStrictnessChanged);
+    connect(ui_.buttonBridge, &QPushButton::clicked, this, &SessionWidget::onShowBridgeLog);
+    connect(ui_.buttonGUI, &QPushButton::clicked, this, &SessionWidget::onShowGUILog);
+    connect(ui_.buttonLauncher, &QPushButton::clicked, this, &SessionWidget::onShowLauncherLog);
     connect(&filter_, &Log::modelReset, this, &SessionWidget::onLogLoaded);
     connect(&filter_, &Log::layoutChanged, this, &SessionWidget::onLayoutChanged);
 
@@ -30,10 +33,33 @@ SessionWidget::SessionWidget(QWidget *parent)
 
 
 //****************************************************************************************************************************************************
-/// \param[in] log The log.
+/// \param[in] session The session.
 //****************************************************************************************************************************************************
-void SessionWidget::setLog(SPLog const &log) {
-    filter_.setLog(log);
+void SessionWidget::setSession(std::optional<Session> const &session) {
+    session_ = session;
+
+    this->updateGUI();
+
+    bool const hasBridgeLog = session->hasBridgeLog();
+    bool const hasGUILog = session->hasGUILog();
+    bool const hasLauncherLog = session->hasLauncherLog();
+
+    if (hasBridgeLog) {
+        filter_.setLog(session->bridgeLog());
+        ui_.buttonBridge->setChecked(true);
+        return;
+    }
+    if (hasGUILog) {
+        filter_.setLog(session->guiLog());
+        ui_.buttonGUI->setChecked(true);
+        return;
+    }
+    if (hasLauncherLog) {
+        filter_.setLog(session_->launcherLog());
+        ui_.buttonLauncher->setChecked(true);
+        return;
+    }
+
 }
 
 //****************************************************************************************************************************************************
@@ -88,4 +114,40 @@ void SessionWidget::onLayoutChanged() {
         message = entryCount > 1 ? QString("%1 entries").arg(entryCount) : "1 entry";
     }
     emit logStatusMessageChanged(message);
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void SessionWidget::onShowBridgeLog() {
+    filter_.setLog(session_.has_value() ? session_->bridgeLog() : SPLog {});
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void SessionWidget::onShowGUILog() {
+    filter_.setLog(session_.has_value() ? session_->guiLog() : SPLog {});
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void SessionWidget::onShowLauncherLog() {
+    filter_.setLog(session_.has_value() ? session_->launcherLog() : SPLog {});
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void SessionWidget::updateGUI() {
+    bool const hasSession = session_.has_value();
+    ui_.buttonBridge->setEnabled(hasSession && session_->hasBridgeLog());
+    ui_.buttonGUI->setEnabled(hasSession && session_->hasGUILog());
+    ui_.buttonLauncher->setEnabled(hasSession && session_->hasLauncherLog());
+
 }

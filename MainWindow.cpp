@@ -17,6 +17,8 @@ MainWindow::MainWindow() {
     ui_.setupUi(this);
 
     ui_.sessionTree->setModel(&sessionList_);
+    ui_.sessionTree->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    ui_.sessionTree->setMinimumWidth(250);
     connect(ui_.sessionTree, &QTreeView::activated, this, &MainWindow::onSessionSelected);
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
@@ -123,7 +125,7 @@ void MainWindow::onActionShowReport() {
 /// \param[in] index The index of the selected session.
 //****************************************************************************************************************************************************
 void MainWindow::onSessionSelected(QModelIndex const &index) const {
-    ui_.sessionWidget->setLog(index.isValid() ? sessionList_.log(index) : SPLog {});
+    ui_.sessionWidget->setSession(index.isValid() ? sessionList_[index.row()] : std::optional<Session> {});
 }
 
 

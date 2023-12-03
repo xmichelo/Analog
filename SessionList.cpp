@@ -24,6 +24,24 @@ SessionList::SessionList(QStringList const &filePaths)
 
 
 //****************************************************************************************************************************************************
+/// \param[in] index The index.
+/// \return The session at the given index.
+//****************************************************************************************************************************************************
+Session & SessionList::operator[](int index) {
+    return sessions_[index];
+}
+
+
+//****************************************************************************************************************************************************
+/// \param[in] index The index.
+/// \return The session at the given index.
+//****************************************************************************************************************************************************
+Session const & SessionList::operator[](int index) const {
+    return sessions_[index];
+}
+
+
+//****************************************************************************************************************************************************
 /// \param[in] filePaths The paths of the files to add the session.
 //****************************************************************************************************************************************************
 void SessionList::open(QStringList const &filePaths) {
@@ -60,34 +78,6 @@ void SessionList::open(QStringList const &filePaths) {
     this->endResetModel();
 }
 
-
-//****************************************************************************************************************************************************
-/// \param[in] index The index.
-/// \return The log at the given index.
-//****************************************************************************************************************************************************
-SPLog SessionList::log(QModelIndex const &index) const {
-    Session const &session = this->session(index);
-    int const i = index.parent().isValid() ? index.row() : 0;
-    bool const hasBridgeLog = session.hasBridgeLog();
-    bool const hasGUILog = session.hasGUILog();
-
-    switch (i) {
-    case 0:
-        if (hasBridgeLog) {
-            return session.bridgeLog();
-        }
-        return hasGUILog ? session.guiLog() : session.launcherLog();
-    case 1:
-        if (hasBridgeLog) {
-            return hasGUILog ? session.guiLog() : session.launcherLog();
-        }
-        return session.launcherLog();
-    case 2:
-        return session.launcherLog();
-    default:
-        return SPLog {};
-    }
-}
 
 //****************************************************************************************************************************************************
 /// \return an optional reference to the selected session.
@@ -138,12 +128,6 @@ int SessionList::rowCount(QModelIndex const &parent) const {
     if (!parent.isValid()) {
         return static_cast<int>(sessions_.count());
     }
-
-    if (!parent.parent().isValid()) {
-        Session const &session = sessions_[parent.row()];
-        return (session.hasBridgeLog() ? 1 : 0) + (session.hasGUILog() ? 1 : 0) + (session.hasLauncherLog() ? 1 : 0);
-    }
-
     return 0;
 }
 
@@ -190,5 +174,17 @@ QVariant SessionList::data(QModelIndex const &index, int role) const {
         }
     }
 
-    return sessions_[index.row()].dateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
+    Session const &session = sessions_[index.row()];
+    QString result = session.dateTime().toString("yyyy-MM-dd HH:mm:ss.zzz - ");
+    if (session.hasBridgeLog()) {
+        result += "B";
+    }
+    if (session.hasGUILog()) {
+        result += "G";
+    }
+    if (session.hasLauncherLog()) {
+        result += "L";
+    }
+
+    return result;
 }

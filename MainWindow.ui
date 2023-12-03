@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2168</width>
-    <height>1405</height>
+    <width>1460</width>
+    <height>1064</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -52,7 +52,14 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="SessionWidget" name="sessionWidget" native="true"/>
+         <widget class="SessionWidget" name="sessionWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>1000</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -65,7 +72,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2168</width>
+     <width>1460</width>
      <height>24</height>
     </rect>
    </property>

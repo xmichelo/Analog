@@ -25,8 +25,9 @@ public: // member functions.
     ~SessionList() override = default; ///< Destructor.
     SessionList& operator=(SessionList const &) = delete; ///< Disabled assignment operator.
     SessionList& operator=(SessionList &&) = delete; ///< Disabled move assignment operator.
+    Session & operator[](int index);
+    Session const& operator[](int index) const;
     void open(QStringList const &filePaths); ///< Open a session list.
-    SPLog log(QModelIndex const &index) const; ///< Get the log at the selected index.
     Session const & session(QModelIndex const &index) const; ///< Get an optional reference to the session at the given index.
 
     /// \name Tree view model functions.
