@@ -6,9 +6,6 @@ set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 project(Analog)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS
     Core
@@ -16,7 +13,9 @@ find_package(Qt6 COMPONENTS
     Widgets
     REQUIRED)
 
-add_executable(Analog main.cpp
+qt_standard_project_setup()
+
+qt_add_executable(Analog main.cpp
     AnalogApp.cpp
     AnalogApp.h
     Exception.cpp
@@ -46,16 +45,26 @@ add_executable(Analog main.cpp
     SessionWidget.ui
 )
 
-
-target_precompile_headers(Analog PRIVATE PCH.h)
-target_include_directories(Analog PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-target_link_libraries(Analog
+target_link_libraries(Analog PRIVATE
     Qt::Core
     Qt::Gui
     Qt::Widgets
 )
 
-set_target_properties(Analog PROPERTIES MACOSX_BUNDLE TRUE)
-set_target_properties(Analog PROPERTIES WIN32_EXECUTABLE TRUE)
+target_precompile_headers(Analog PRIVATE PCH.h)
+target_include_directories(Analog PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# macOS specific settings
+if (APPLE)
+    set_target_properties(Analog PROPERTIES MACOSX_BUNDLE TRUE)
+    set(MACOSX_BUNDLE_ICON_FILE Bridge.icns)
+    set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Bridge.icns")
+    set_source_files_properties(${app_icon_macos} PROPERTIES
+        MACOSX_PACKAGE_LOCATION "Resources")
+    target_sources(Analog PUBLIC ${app_icon_macos})
+endif (APPLE)
+
+# Windows specific settings
+if (WIN32)
+    set_target_properties(Analog PROPERTIES WIN32_EXECUTABLE TRUE)
+endif (WIN32)
