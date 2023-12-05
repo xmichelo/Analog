@@ -12,6 +12,7 @@ namespace {
 QChar constexpr doubleQuote('"'); ///< The double quote character.
 QChar constexpr backslash('\\'); ///< The backslash character.
 QChar constexpr equal('='); ///< The equal sign character.
+QChar constexpr space(' '); ///< The space character.
 QString const keyTime = "time"; ///< The field name for time.
 QString const keyLevel = "level"; ///< The field name for level.
 QString const keyPackage = "pkg"; ///< The field name for package.
@@ -46,6 +47,12 @@ QStringList tokenizeBridge34Entry(QString const &str) {
                 acc = QString();
             }
             inQuotes = !inQuotes;
+            prevChar = c;
+            continue;
+        }
+
+        if ((c == space) && (!inQuotes) && (acc.isEmpty()) && (!result.isEmpty()) && (result.back() == equal)) {
+            result.push_back(QString());
             prevChar = c;
             continue;
         }
