@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.26)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
 set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 
-project(Analog)
+project(Analog VERSION 0.4)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -14,6 +14,10 @@ find_package(Qt6 COMPONENTS
     REQUIRED)
 
 qt_standard_project_setup()
+
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 
 qt_add_executable(Analog main.cpp
     AnalogApp.cpp
@@ -50,6 +54,9 @@ target_link_libraries(Analog PRIVATE
     Qt::Gui
     Qt::Widgets
 )
+
+
+add_definitions(-DANALOG_VERSION=${PROJECT_VERSION})
 
 target_precompile_headers(Analog PRIVATE PCH.h)
 target_include_directories(Analog PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

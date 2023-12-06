@@ -14,12 +14,12 @@
 //****************************************************************************************************************************************************
 MainWindow::MainWindow() {
     ui_.setupUi(this);
-
+    this->setWindowTitle(QString("Proton Analog v%1").arg(ANALOG_VERSION));
     ui_.sessionList->setModel(&sessionList_);
-    //ui_.sessionList->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     ui_.sessionList->setMinimumWidth(250);
     connect(ui_.sessionList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onSelectedSessionChanged);
     connect(ui_.actionOpenFile, &QAction::triggered, this, &MainWindow::onActionOpenFile);
+    connect(ui_.actionAbout, &QAction::triggered, this, &MainWindow::onAbout);
     connect(ui_.actionShowReport, &QAction::triggered, this, &MainWindow::onActionShowReport);
     connect(ui_.sessionWidget, &SessionWidget::logStatusMessageChanged, this, &MainWindow::onLogStatusMessageChanged);
     connect(ui_.sessionWidget, &SessionWidget::logErrorsOccurred, this, &MainWindow::onLogErrors);
@@ -109,6 +109,14 @@ void MainWindow::onActionShowReport() {
     } catch (Exception const &e) {
         QMessageBox::critical(this, "Error", e.message());
     }
+}
+
+
+//****************************************************************************************************************************************************
+//
+//****************************************************************************************************************************************************
+void MainWindow::onAbout() {
+    QMessageBox::about(this, "Proton Analog", QString("Proton Analog v%1\nProton AG").arg(ANALOG_VERSION));
 }
 
 

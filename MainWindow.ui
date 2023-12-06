@@ -84,6 +84,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionOpenFile"/>
+    <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuLog">
     <property name="title">
@@ -91,8 +92,15 @@
     </property>
     <addaction name="actionShowReport"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuLog"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpenFile">
@@ -115,6 +123,14 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
    </property>
   </action>
  </widget>

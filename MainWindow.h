@@ -41,6 +41,7 @@ public slots:
     ///\{
     void onActionOpenFile(); ///< Slot for the 'Open File' action.
     void onActionShowReport(); ///< Slot for the 'Show Report' action.
+    void onAbout(); ///< Slot for showing the about dialog.
     ///\}
 
     void open(QStringList const &filePaths); ///< Slot for opening a given file.
